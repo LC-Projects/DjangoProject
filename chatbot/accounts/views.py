@@ -18,6 +18,7 @@ def register_view(request):
 
 
 def login_view(request):
+    next_url = request.GET.get('next', 'home:home')
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -25,10 +26,10 @@ def login_view(request):
             if 'next' in request.POST:
                 return redirect(request.POST.get('next'))
             else:
-                return HttpResponse('Login Success')
+                return redirect(next_url)
     else:
         form = AuthenticationForm()
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "accounts/login.html", {"form": form, "next": next_url})
 
 
 def logout_view(request):
