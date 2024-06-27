@@ -1,4 +1,4 @@
-# DjangoProject
+# chatbot
 Create an webapp 
 
 ```
@@ -11,7 +11,7 @@ py -m pip install Django==5.0.6
 pip install django-filter
 
 python manage.py shell
-django-admin startproject "DjangoProject"
+django-admin startproject "chatbot"
 
 python .\manage.py startapp testunit
 ```

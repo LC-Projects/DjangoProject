@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a3ed58c0-951d-49fd-a97c-4d897cfc7827" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/chatbot/accounts/templatetags/dict_filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/home/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/templates/_partials/navbar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/templates/accounts/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/templates/accounts/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chatbot/templates/home/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/DjangoProject/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/accounts/templatetags/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/DjangoProject/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/DjangoProject/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/DjangoProject/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/DjangoProject/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/authentification/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/templates/authentification/changepassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/home/migrations/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/templates/authentification/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot/templates/accounts/changepassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/templates/authentification/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DjangoProject/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2iSYvU7XQTr18gLp0pWK4mHoipg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "dev__mathieu",
+    "last_opened_file_path": "C:/Users/Mathieu/Desktop/LiveCampus/Django/projet/DjangoProject/chatbot/accounts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Mathieu\Desktop\LiveCampus\Django\projet\DjangoProject\chatbot\accounts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mathieu\Desktop\LiveCampus\Django\projet\DjangoProject\chatbot" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="DjangoProject" type="Python.DjangoServer" factoryName="Django server">
+      <module name="DjangoProject" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="localhost" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.18034.82" />
+        <option value="bundled-python-sdk-975db3bf15a3-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.18034.82" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a3ed58c0-951d-49fd-a97c-4d897cfc7827" name="Changes" comment="" />
+      <created>1719485675766</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719485675766</updated>
+      <workItem from="1719485676900" duration="894000" />
+      <workItem from="1719486688516" duration="3481000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/dev_lucky" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
