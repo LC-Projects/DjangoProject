@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'bg-blue-100 border-blue-500 text-blue-700',
+    messages.INFO: 'bg-blue-100 border-blue-500 text-blue-700',
+    messages.SUCCESS: 'bg-green-100 border-green-500 text-green-700',
+    messages.WARNING: 'bg-yellow-100 border-yellow-500 text-yellow-700',
+    messages.ERROR: 'bg-red-100 border-red-500 text-red-700',
+}
 
 # Application definition
 
