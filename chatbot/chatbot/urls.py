@@ -18,17 +18,26 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', include(('home.urls', 'home'), namespace='home')),
     path('admin/', admin.site.urls),
 
-
-    path('auth/', include('accounts.urls.auth_urls')),
-    # path('auth/', include(('accounts.urls.auth_urls', 'accounts'), namespace='auth')),
-    path('account/', include(('accounts.urls.account_urls', 'accounts'), namespace='account')),
-
-
-
+    path('auth/', include(('accounts.urls', 'accounts'), namespace='auth')),
+    # path('', include('django.contrib.auth.urls')),
     path('chats/', include(('chats.urls', 'chats'), namespace='chats')),
+
+    path('reset_password/', auth_views.PasswordResetView.as_view(
+        template_name='accounts/password_reset.html',
+    ), name='reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(
+        template_name='accounts/password_reset_done.html',
+    ), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        # template_name='accounts/password_reset_confirm.html',
+    ), name='password_reset_confirm'),
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='accounts/password_reset_complete.html',
+    ), name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
