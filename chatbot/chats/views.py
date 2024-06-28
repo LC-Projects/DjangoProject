@@ -16,7 +16,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
 # Initialize LangChain with your API key or necessary configuration
-langchain_client = ChatOpenAI(api_key='sk-proj-NAkaZpzwJuCViJD0dZUwT3BlbkFJtpoV87frTLHCTSQZgFAl')
+langchain_client = ChatOpenAI(api_key='API_KEY')
 
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
