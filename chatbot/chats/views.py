@@ -12,6 +12,11 @@ from django.forms.models import model_to_dict
 
 from django_filters.views import FilterView
 
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_openai import ChatOpenAI
+
+# Initialize LangChain with your API key or necessary configuration
+langchain_client = ChatOpenAI(api_key='sk-proj-NAkaZpzwJuCViJD0dZUwT3BlbkFJtpoV87frTLHCTSQZgFAl')
 
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
@@ -27,6 +32,11 @@ class ChatFilterView(FilterView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 @method_decorator(login_required(login_url='auth:login'), name='dispatch')
@@ -74,8 +84,62 @@ def add_message(request):
         chat = request.POST.get('chat')
         content = request.POST.get('content')
         is_bot = request.POST.get('is_bot', False)
+
+        # Save the user's message
         message = Message(chat_id=chat, content=content, is_bot=is_bot)
         message.save()
-        # Convert the message object to a dictionary
-        message_dict = model_to_dict(message)
-        return JsonResponse({'status': 'Valid', 'new_message': message_dict})
+
+        # Retrieve the last 5 messages for context
+        context_messages = Message.objects.filter(chat_id=chat).order_by('-created_at')[:5]
+
+        # Create LangChain message objects for the context
+        langchain_messages = []
+        for msg in reversed(context_messages):
+            if msg.is_bot:
+                langchain_messages.append(AIMessage(content=msg.content))
+            else:
+                langchain_messages.append(HumanMessage(content=msg.content))
+
+        # Add the new user message to the context
+        langchain_messages.append(HumanMessage(content=content))
+
+        # Get the bot's response with context
+        bot_response = langchain_client.invoke(langchain_messages)  # Adjust this line if needed
+
+        # Save the bot's response as a message
+        bot_message = Message(chat_id=chat, content=bot_response.content, is_bot=True)
+        bot_message.save()
+
+        message_dict = {
+            'id': message.id,
+            'content': message.content,
+            'is_bot': message.is_bot,
+            'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
+        }
+
+        bot_message_dict = {
+            'id': bot_message.id,
+            'content': bot_message.content,
+            'is_bot': bot_message.is_bot,
+            'created_at': bot_message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
+        }
+
+        return JsonResponse({'status': 'Valid', 'new_message': message_dict, 'bot_response': bot_message_dict})
+
+
+@login_required(login_url='auth:login')
+def create_chat(request):
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Invalid method'})
+    else:
+        name = request.POST.get('name')
+        category = request.POST.get('category')
+        chat = Chat(name=name, category_id=category, user=request.user)
+        chat.save()
+        return JsonResponse({'status': 'Valid', 'chat': {
+            'id': chat.id,
+            'name': chat.name,
+            'category': chat.category.name,
+            'created_at': chat.created_at.strftime('%d/%m/%Y %H:%M:%S'),
+            'detail_url': f'/chats/detail/{chat.id}/'
+        }})

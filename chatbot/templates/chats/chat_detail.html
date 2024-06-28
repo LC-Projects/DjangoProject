@@ -1,11 +1,12 @@
 {% extends '../base.html' %}{% load static %}
 
 {% block content %}
-    <div class="dark:bg-gray-900 p-8 h-screen">
-        <h1 class="text-4xl mb-4">Detail</h1>
-
-        <div class="flex items-center justify-center w-full">
-            <div class="w-7/12 " id="list-messages">
+    <div class="dark:bg-gray-900 p-8 h-screen chat-detail-page">
+        
+        <h1 class="text-4xl mb-4 text-white">Chat: {{ chat.name }}</h1>
+        <div class="w-full max-h-[70%] overflow-auto">
+            
+            <div class="w-7/12 m-auto" id="list-messages">
                 {% for message in messages %}
                     {% if message.is_bot %}
                         <div class="flex items-start">

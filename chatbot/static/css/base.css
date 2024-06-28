@@ -1,0 +1,30 @@
+
+.chat-detail-page {
+    /* width */
+
+    ::-webkit-scrollbar {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Track */
+
+    ::-webkit-scrollbar-track {
+        border-radius: 100vh;
+        background: #111827;
+    }
+
+    /* Handle */
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(50, 57, 78, 0.71);
+        border-radius: 100vh;
+        border: 1px solid #edf2f7;
+    }
+
+    /* Handle on hover */
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a0aec0;
+    }
+}
