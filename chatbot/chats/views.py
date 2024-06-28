@@ -16,7 +16,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
 # Initialize LangChain with your API key or necessary configuration
-langchain_client = ChatOpenAI(api_key='API_KEY')
+langchain_client = ChatOpenAI(api_key='sk-proj-NAkaZpzwJuCViJD0dZUwT3BlbkFJtpoV87frTLHCTSQZgFAl')
 
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
@@ -58,6 +58,7 @@ class ChatDetailView(DetailView):
                 'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
             })
         context['messages'] = datas
+        context['body_class'] = 'chat-detail-page-body'
         return context
 
 

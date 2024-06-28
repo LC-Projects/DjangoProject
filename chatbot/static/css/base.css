@@ -1,30 +1,54 @@
 
-.chat-detail-page {
-    /* width */
+.chat-detail-page-body {
+    display: grid;
+    grid-template-areas: 'header' 'main' 'footer';
+    grid-template-rows: auto 1fr auto;
 
-    ::-webkit-scrollbar {
-        width: 16px;
-        height: 16px;
+    header {
+        grid-area: header;
     }
 
-    /* Track */
+    main {
+        grid-area: main;
+        overflow: hidden;
+        height: calc(100vh - (64px + 84px));
 
-    ::-webkit-scrollbar-track {
-        border-radius: 100vh;
-        background: #111827;
+        > div {
+            height: calc(100vh - (64px + 84px));
+            overflow-y: auto;
+        }
+
+
+        /* width */
+
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+            }
+
+            /* Track */
+
+            ::-webkit-scrollbar-track {
+                border-radius: 100vh;
+                background: #111827;
+            }
+
+            /* Handle */
+
+            ::-webkit-scrollbar-thumb {
+                background: rgba(50, 57, 78, 0.71);
+                border-radius: 100vh;
+                border: 1px solid #edf2f7;
+            }
+
+            /* Handle on hover */
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #a0aec0;
+            }
     }
 
-    /* Handle */
-
-    ::-webkit-scrollbar-thumb {
-        background: rgba(50, 57, 78, 0.71);
-        border-radius: 100vh;
-        border: 1px solid #edf2f7;
-    }
-
-    /* Handle on hover */
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #a0aec0;
+    footer {
+        grid-area: footer;
     }
 }

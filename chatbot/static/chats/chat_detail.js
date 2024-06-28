@@ -8,6 +8,7 @@ $(document).ready(() => {
 
         const content = textArea.val();
         appendTempMessage(content);
+        scrollBottom();
 
         $.ajax({
             url: $(this).attr('action'),
@@ -21,6 +22,9 @@ $(document).ready(() => {
                 removeTempMessages();
                 if (data.status === 'Valid') {
                     appendValidMessage(data.new_message);
+                    appendValidBotMessage(data.bot_response);
+                    scrollBottom();
+                    $(textArea).val('');
                 } else {
                     appendErrorMessage(data.new_message);
                 }
@@ -127,13 +131,18 @@ $(document).ready(() => {
                     <div class="flex flex-col w-full  leading-1.5">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
+                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.created_at}</span>
                         </div>
-                        <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content }}</p>
+                        <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">${message.content }</p>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                     </div>
                 </div>
             </div>
         `);
+    }
+
+    scrollBottom();
+    function scrollBottom(){
+        $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
     }
 });

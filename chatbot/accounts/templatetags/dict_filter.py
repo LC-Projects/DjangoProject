@@ -1,5 +1,6 @@
 from django import template
 from django.urls import reverse
+from urllib.parse import unquote
 
 register = template.Library()
 
@@ -21,3 +22,15 @@ def is_path(request, named_url):
         return request.path == path
     except Exception:
         return False
+
+
+
+@register.filter(name='remove_media_prefix')
+def remove_media_prefix(value):
+    # Decode the URL
+    decoded_url = unquote(value)
+    # Check if 'https://' is in the decoded URL and '/media/' is the prefix
+    if decoded_url.startswith('/media/https'):
+        # Remove '/media/' prefix
+        return decoded_url.replace('/media/', '', 1)
+    return value

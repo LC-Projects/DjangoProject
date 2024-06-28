@@ -24,10 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
 
-    path('auth/', include(('accounts.urls.auth_urls', 'accounts'), namespace='auth')),
+    path('auth/', include('accounts.urls.auth_urls')),
+    # path('auth/', include(('accounts.urls.auth_urls', 'accounts'), namespace='auth')),
     path('account/', include(('accounts.urls.account_urls', 'accounts'), namespace='account')),
 
 
 
     path('chats/', include(('chats.urls', 'chats'), namespace='chats')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

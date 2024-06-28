@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
-<body>
+<body class="{{ body_class }}">
 {% csrf_token %}
 {% include '_partials/navbar.html' %}
 <main>
