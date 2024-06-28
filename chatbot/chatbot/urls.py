@@ -30,4 +30,4 @@ urlpatterns = [
 
 
     path('chats/', include(('chats.urls', 'chats'), namespace='chats')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

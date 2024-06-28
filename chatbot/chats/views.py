@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
@@ -17,14 +18,19 @@ class ChatFilterSet(FilterSet):
     category = ModelChoiceFilter(queryset=Category.objects.all(), label='Category')
 
 
-class ChatFilterView(LoginRequiredMixin, FilterView):
+@method_decorator(login_required(login_url='auth:login'), name='dispatch')
+class ChatFilterView(FilterView):
     model = Chat
     template_name = 'chats/home.html'
     context_object_name = 'datas'
     filterset_class = ChatFilterSet
 
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
-class ChatDetailView(LoginRequiredMixin, DetailView):
+
+@method_decorator(login_required(login_url='auth:login'), name='dispatch')
+class ChatDetailView(DetailView):
     model = Chat
     template_name = 'chats/chat_detail.html'
     context_object_name = 'chat'
@@ -45,7 +51,7 @@ class ChatDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-@login_required
+@login_required(login_url='auth:login')
 def chat_delete(request):
     if request.method != 'POST':
         return JsonResponse({'status': 'error', 'message': 'Invalid method'})
@@ -60,6 +66,7 @@ def chat_delete(request):
             return JsonResponse({'status': 'Valid'})
 
 
+@login_required(login_url='auth:login')
 def add_message(request):
     if request.method != 'POST':
         return JsonResponse({'status': 'error', 'message': 'Invalid method'})

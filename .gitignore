@@ -166,3 +166,7 @@ cython_debug/
 # Others
 .DS_Store
 media/
+
+**/migrations/*.py
+**/migrations/*.pyc
+**/migrations/__pycache__/
