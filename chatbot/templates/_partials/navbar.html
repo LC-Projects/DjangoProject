@@ -1,0 +1,136 @@
+{% load dict_filter %}
+<header>
+  {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav" style="margin-left: auto;">
+          <li class="nav-item">
+            <a class="nav-link" href="">LLM</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin</a>
+          </li>
+          <li class="nav-item">
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav> {% endcomment %}
+
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <!--
+                    Icon when menu is closed.
+
+                    Menu open: "hidden", Menu closed: "block"
+                             -->
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <!--
+                    Icon when menu is open.
+
+                    Menu open: "block", Menu closed: "hidden"
+                             -->
+            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex flex-shrink-0 items-center">
+            <a href="{% url 'home:home' %}"><img class="h-8 w-auto" src="https://www.podfeet.com/blog/wp-content/uploads/2021/09/GitHub-Copilot-logo-1040x650.png" alt="Your Company" /></a>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              {% if not user.is_authenticated %}
+              <a href="{% url 'home:home' %}" class="{% if request|is_path:'home:home' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+              <a href="#" class="{% if request|is_path:'home:services' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Services</a>
+              <a href="#" class="{% if request|is_path:'home:pricing' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Pricing</a>
+              <a href="#" class="{% if request|is_path:'home:about' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">About</a>
+              <a href="#" class="{% if request|is_path:'home:contact' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contact</a>
+              {% endif %}
+
+              {% if user.is_authenticated %}
+                <a href="{% url 'home:home' %}" class="{% if request|is_path:'home:home' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                <a href="{% url 'chats:chat_list' %}" class="{% if request|is_path:'chats:chat_list' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Chats</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+            <span class="absolute -inset-1.5"></span>
+            <span class="sr-only">View notifications</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+          </button>
+
+          <!-- Profile dropdown -->
+          <div class="relative ml-3">
+            <div>
+              {% if user.is_authenticated %}
+                <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <span class="sr-only">Open user menu</span>
+                  {% load dict_filter %}
+                  <img src="{{ request.user.profile.avatar.url|remove_media_prefix }}" alt="avatar" class="h-8 w-8 rounded-full" />
+                </button>
+              {% else %}
+                <a href="/auth/login/" class="relative flex items-center justify-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 h-8 w-8">
+                  <span class="sr-only">Sign in</span>
+                  <svg class="h-6 w-6 scale-[.80]" xmlns="http://www.w3.org/2000/svg" version="1.0" width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#ffffff" stroke="none">
+                      <path d="M2435 5114 c-16 -2 -65 -9 -109 -15 -246 -33 -541 -172 -741 -349 -253 -223 -432 -545 -486 -875 -20 -120 -17 -390 5 -500 71 -361 275 -695 550 -903 l68 -52 -28 -10 c-121 -46 -173 -69 -276 -120 -444 -223 -805 -560 -1062 -990 -210 -352 -328 -745 -352 -1180 l-7 -120 201 0 202 0 0 49 c0 339 141 807 330 1095 291 445 681 750 1156 905 452 148 896 148 1348 0 475 -155 865 -460 1156 -905 189 -288 330 -756 330 -1095 l0 -49 202 0 201 0 -7 120 c-24 435 -142 828 -352 1180 -257 430 -618 767 -1062 990 -103 51 -155 74 -276 120 l-28 10 68 52 c275 208 479 542 550 903 22 110 25 380 5 500 -43 263 -176 542 -352 742 -219 247 -527 421 -848 479 -77 14 -332 26 -386 18z m294 -409 c588 -96 990 -650 896 -1234 -96 -588 -650 -990 -1234 -896 -588 96 -990 650 -896 1234 96 588 650 990 1234 896z" />
+                    </g>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+
+            <div id="user-menu-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+              <a href="{% url 'account:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+              <a href="{% url 'account:edit_profile' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+              <hr />
+              <a href="/auth/logout/" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pb-3 pt-2">
+        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const userMenuButton = document.getElementById('user-menu-button')
+      const userMenuDropdown = document.getElementById('user-menu-dropdown')
+
+      userMenuButton.addEventListener('click', () => {
+        userMenuDropdown.classList.toggle('hidden')
+      })
+    })
+  </script>
+</header>
