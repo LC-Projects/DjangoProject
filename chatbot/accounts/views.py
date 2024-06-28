@@ -55,7 +55,6 @@ class UserEditView(generic.UpdateView):
     form_class = EditUserForm
     template_name = 'accounts/edit_user.html'
     success_url = reverse_lazy('account:edit_user')
-
     
     def get_object(self):
         return self.request.user
