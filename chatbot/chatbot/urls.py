@@ -16,9 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('auth/', include(('accounts.urls', 'accounts'), namespace='auth')),
     path('', include(('home.urls', 'home'), namespace='home')),
-]
+    path('admin/', admin.site.urls),
+
+
+    path('auth/', include(('accounts.urls.auth_urls', 'accounts'), namespace='auth')),
+    path('account/', include(('accounts.urls.account_urls', 'accounts'), namespace='account')),
+
+
+
+    path('chats/', include(('chats.urls', 'chats'), namespace='chats')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
