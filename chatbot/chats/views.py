@@ -2,33 +2,26 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import DetailView
-from .models import Chat, Message
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter
+
+from .models import Chat, Message, Category
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 
+from django_filters.views import FilterView
 
-@login_required
-# Create your views here.
-def chat_list(request, category=None):
-    datas = []
 
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        category = request.POST.get('category')
-        chat = Chat(name=name, category=category)
-        chat.save()
-        chat_dict = model_to_dict(chat)
-        return JsonResponse({'status': 'Valid', 'new_chat': chat_dict})
-    chats = Chat.objects.filter(category=category)
-    for chat in chats:
-        datas.append({
-            'id': chat.id,
-            'name': chat.name,
-            'created_at': chat.created_at.strftime('%d/%m/%Y'),
-        })
+class ChatFilterSet(FilterSet):
+    name = CharFilter(lookup_expr='icontains', label='Name')
+    category = ModelChoiceFilter(queryset=Category.objects.all(), label='Category')
 
-    return render(request, 'chats/home.html', {'datas': datas})
+
+class ChatFilterView(LoginRequiredMixin, FilterView):
+    model = Chat
+    template_name = 'chats/home.html'
+    context_object_name = 'datas'
+    filterset_class = ChatFilterSet
 
 
 class ChatDetailView(LoginRequiredMixin, DetailView):
@@ -79,4 +72,3 @@ def add_message(request):
         # Convert the message object to a dictionary
         message_dict = model_to_dict(message)
         return JsonResponse({'status': 'Valid', 'new_message': message_dict})
-

@@ -68,7 +68,7 @@ $(document).ready(() => {
                     <div class="flex flex-col w-full  leading-1.5">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">Me</span>
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.create_at}</span>
+                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.created_at}</span>
                         </div>
                         <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">${message.content}</p>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
@@ -94,7 +94,7 @@ $(document).ready(() => {
                     <div class="flex flex-col w-full  leading-1.5">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">Me</span>
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.create_at}</span>
+                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.created_at}</span>
                         </div>
                         <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">${message.content}</p>
                         <span class="text-sm font-normal text-gray-500 dark:text-red-400">Error try again</span>
