@@ -27,42 +27,22 @@ def register_view(request):
     return render(request, "accounts/register.html", {"form": form})
 
 
-
-
-
-
-# class register_view(generic.CreateView):
-#     form_class = UserCreationForm
-#     template_name = 'auth/register.html'
-#     success_url = reverse_lazy('home:home')
+class login_view(generic.FormView):
+    form_class = UserLoginForm
+    template_name = 'accounts/login.html'
+    success_url = reverse_lazy('home:home')
     
-#     def form_valid(self, form):
-#         messages.success(self.request, f'Account created for {form.cleaned_data["username"]}')
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super().form_valid(form)
     
-#     def form_invalid(self, form):
-#         error_messages = ''
-#         for field, errors in form.errors.items():
-#             for error in errors:
-#                 error_messages += f"{field}: {error}\n"
-#         messages.error(self.request, error_messages)
-#         return super().form_invalid(form)
-
-
-def login_view(request):
-    print("login_view", request.POST)
-    next_url = request.GET.get('next', 'home:home')
-    if request.method == "POST":
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            login(request, form.get_user())
-            if 'next' in request.POST:
-                return redirect(request.POST.get('next'))
-            else:
-                return redirect(next_url)
-    else:
-        form = UserLoginForm()
-    return render(request, "accounts/login.html", {"form": form, "next": next_url})
+    def form_invalid(self, form):
+        error_messages = ''
+        for field, errors in form.errors.items():
+            for error in errors:
+                error_messages += f"{field}: {error}\n"
+        messages.error(self.request, error_messages)
+        return super().form_invalid(form)
 
 
 def logout_view(request):
@@ -74,8 +54,8 @@ def logout_view(request):
 class UserEditView(generic.UpdateView):
     form_class = EditUserForm
     template_name = 'accounts/edit_user.html'
+    success_url = reverse_lazy('account:edit_user')
     
-    # success_url = reverse_lazy('home:home')
     
     def get_object(self):
         return self.request.user

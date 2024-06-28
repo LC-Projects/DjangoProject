@@ -19,7 +19,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, null=True , on_delete=models.CASCADE)
 
     bio = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to='images/profiles/', default='avatars/default.jpg')
+    avatar = models.ImageField(upload_to='images/profiles/', default='https://xsgames.co/randomusers/avatar.php?g=pixel')
 
     birthdate = models.DateField(null=True, blank=True)
 
