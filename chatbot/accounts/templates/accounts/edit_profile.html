@@ -20,7 +20,8 @@
               {% comment %} if picture display {% endcomment %}
               {% if form.avatar.value %}
                 <div>
-                  <img src="{{ form.avatar.value.url }}" alt="avatar" class="w-20 h-20 rounded-full" />
+                  {% load dict_filter %}
+                  <img src="{{ form.avatar.value.url|remove_media_prefix }}" alt="avatar" class="w-20 h-20 rounded-full" />
                 </div>
               {% endif %}
 
