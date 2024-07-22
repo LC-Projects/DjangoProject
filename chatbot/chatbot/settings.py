@@ -12,10 +12,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
 import os
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(env_path)
 
 LOGIN_URL = 'auth:login'
 
@@ -23,14 +29,18 @@ LOGIN_URL = 'auth:login'
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hu%*seif1j!y-wp_h$f$jd+aq&rif*@_jr@e72g@be7cu&lu*2'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-hu%*seif1j!y-wp_h$f$jd+aq&rif*@_jr@e72g@be7cu&lu*2')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS.extend(
+	filter(
+		None,
+		os.environ.get('ALLOWED_HOSTS', '').split(','),
+	)
+)
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'bg-blue-100 border-blue-500 text-blue-700',
