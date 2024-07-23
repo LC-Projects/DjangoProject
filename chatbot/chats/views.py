@@ -15,8 +15,10 @@ from django_filters.views import FilterView
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
+import os
+
 # Initialize LangChain with your API key or necessary configuration
-langchain_client = ChatOpenAI(api_key='API_KEY')
+langchain_client = ChatOpenAI(api_key=os.environ.get('API_KEY', ''))
 
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
