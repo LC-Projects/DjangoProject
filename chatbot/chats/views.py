@@ -15,8 +15,13 @@ from django_filters.views import FilterView
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
 
+import os
+import re
+import markdown
+
 # Initialize LangChain with your API key or necessary configuration
-langchain_client = ChatOpenAI(api_key='sk-proj-NAkaZpzwJuCViJD0dZUwT3BlbkFJtpoV87frTLHCTSQZgFAl')
+langchain_client = ChatOpenAI(api_key=os.environ.get('API_KEY', ''))
+
 
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
@@ -51,9 +56,13 @@ class ChatDetailView(DetailView):
         messages = Message.objects.filter(chat=chat)
         datas = []
         for message in messages:
+            content = message.content
+
+            content = process_content(content)
+
             datas.append({
                 'id': message.id,
-                'content': message.content,
+                'content': markdown.markdown(content),
                 'is_bot': message.is_bot,
                 'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
             })
@@ -144,3 +153,29 @@ def create_chat(request):
             'created_at': chat.created_at.strftime('%d/%m/%Y %H:%M:%S'),
             'detail_url': f'/chats/detail/{chat.id}/'
         }})
+
+
+def process_content(content):
+    # This pattern matches text enclosed in triple backticks with an optional language specifier,
+    # single backticks, and any other text.
+    pattern = r'(```(\w+)?(.*?)```|`.*?`|[^`]+)'
+
+    def replace_line_breaks(match):
+        text = match.group(0)
+        # Check if the text is code (enclosed in backticks) or plain text.
+        if text.startswith('```'):
+            language = match.group(2)
+            code_block = match.group(3)
+            if language:
+                return f'<pre><code class="language-{language}">{code_block}</code></pre>'
+            else:
+                return f'<pre><code>{code_block}</code></pre>'
+        elif text.startswith('`'):
+            return f'<code>{text[1:-1]}</code>'
+        else:
+            return text.replace('\n', '<br>')  # Replace line breaks in plain text.
+
+    # Use the sub function to replace line breaks in plain text while keeping code blocks unchanged.
+    content = re.sub(pattern, replace_line_breaks, content, flags=re.DOTALL)
+
+    return content

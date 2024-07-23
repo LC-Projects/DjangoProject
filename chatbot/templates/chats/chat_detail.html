@@ -9,7 +9,7 @@
             <div class="w-7/12 m-auto" id="list-messages">
                 {% for message in messages %}
                     {% if message.is_bot %}
-                        <div class="flex items-start">
+                        <div class="flex items-start w-full">
                             <div class="bg-gray-500 rounded-[8px] p-3 mb-4  gap-2.5 flex items-start">
                                 <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img"
@@ -23,7 +23,7 @@
                                         <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
                                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
                                     </div>
-                                    <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content }}</p>
+                                    <div class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</div>
                                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                                         <span class="text-sm font-semibold text-gray-900 dark:text-white">Me</span>
                                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
                                     </div>
-                                    <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content }}</p>
+                                    <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</p>
                                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                                 </div>
                                 <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">

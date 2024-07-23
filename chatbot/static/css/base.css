@@ -4,6 +4,8 @@
     grid-template-areas: 'header' 'main' 'footer';
     grid-template-rows: auto 1fr auto;
 
+
+
     header {
         grid-area: header;
     }
@@ -21,34 +23,43 @@
 
         /* width */
 
-            ::-webkit-scrollbar {
-                width: 10px;
-                height: 10px;
-            }
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
 
-            /* Track */
+        /* Track */
 
-            ::-webkit-scrollbar-track {
-                border-radius: 100vh;
-                background: #111827;
-            }
+        ::-webkit-scrollbar-track {
+            border-radius: 100vh;
+            background: #111827;
+        }
 
-            /* Handle */
+        /* Handle */
 
-            ::-webkit-scrollbar-thumb {
-                background: rgba(50, 57, 78, 0.71);
-                border-radius: 100vh;
-                border: 1px solid #edf2f7;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(50, 57, 78, 0.71);
+            border-radius: 100vh;
+            border: 1px solid #edf2f7;
+        }
 
-            /* Handle on hover */
+        /* Handle on hover */
 
-            ::-webkit-scrollbar-thumb:hover {
-                background: #a0aec0;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
     }
 
     footer {
         grid-area: footer;
+    }
+}
+
+pre{
+    border-radius: 8px !important;
+    background-color: #3a3a3a !important;
+
+    code{
+        background-color: transparent !important;
     }
 }

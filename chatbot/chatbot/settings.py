@@ -12,10 +12,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(env_path)
 
 LOGIN_URL = 'auth:login'
 
@@ -23,14 +27,18 @@ LOGIN_URL = 'auth:login'
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hu%*seif1j!y-wp_h$f$jd+aq&rif*@_jr@e72g@be7cu&lu*2'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-hu%*seif1j!y-wp_h$f$jd+aq&rif*@_jr@e72g@be7cu&lu*2')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DJANGO_DEBUG'))) != False
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get('ALLOWED_HOSTS', '').split(','),
+    )
+)
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'bg-blue-100 border-blue-500 text-blue-700',
@@ -54,23 +62,32 @@ INSTALLED_APPS = [
     'home',
     'allauth',
     'allauth.account',
+    'highlightjs'
 ]
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = 'login'
-ACCOUNT_SIGNUP_REDIRECT_URL = 'logout'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'auth:logout'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_EMAIL_REQUIRED = False
 EMAIL_VERIFICATION = 'none'
 
-
 # settings.py
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
-
+HIGHLIGHTJS = {
+    # The URL to the jQuery JavaScript file
+    'jquery_url': '//code.jquery.com/jquery.min.js',
+    # The highlight.js base URL
+    'base_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js',
+    # The complete URL to the highlight.js CSS file
+    'css_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/{0}.min.css',
+    # Include jQuery with highlight.js JavaScript (affects django-highlightjs template tags)
+    'include_jquery': True,
+    # The default used style.
+    'style': 'stackoverflow-dark',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,7 +120,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'chatbot.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -113,6 +129,17 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'chatbot',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -146,15 +173,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
 ]
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

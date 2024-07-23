@@ -54,7 +54,7 @@ def logout_view(request):
 class UserEditView(generic.UpdateView):
     form_class = EditUserForm
     template_name = 'accounts/edit_user.html'
-    success_url = reverse_lazy('account:edit_user')
+    success_url = reverse_lazy('auth:edit_user')
     
     def get_object(self):
         return self.request.user
@@ -64,7 +64,7 @@ class UserProfileEditView(generic.UpdateView):
     model = Profile
     fields = ['bio', 'avatar', 'birthdate']
     template_name = 'accounts/edit_profile.html'
-    success_url = reverse_lazy('account:edit_profile')
+    success_url = reverse_lazy('auth:edit_profile')
     
     # success_url = '/edit_profile'
     

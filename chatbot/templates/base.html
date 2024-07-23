@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load dict_filter %}
 {% load static %}
+{% load highlightjs %}
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -11,14 +12,17 @@
     <script src="https://kit.fontawesome.com/3b346af46d.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="{% highlightjs_css_url %}" rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
 </head>
 <body class="{{ body_class }}">
 {% csrf_token %}
 {% include '_partials/navbar.html' %}
+
 <main>
+    {% highlightjs_javascript jquery=1 %}
     {% block content %}
 
     {% endblock %}
