@@ -20,8 +20,12 @@ class Profile(models.Model):
 
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to='images/profiles/', default='https://xsgames.co/randomusers/avatar.php?g=pixel')
-
     birthdate = models.DateField(null=True, blank=True)
+    emotion = models.CharField(max_length=100, blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    language = models.CharField(max_length=100, blank=True)
+
+    
 
 
     def save(self, *args, **kwargs):

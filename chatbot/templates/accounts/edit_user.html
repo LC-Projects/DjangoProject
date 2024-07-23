@@ -30,11 +30,11 @@
 
    {% comment %}for each input chnage label{% endcomment %}
    {% for field in form %}
-   <div class="fieldWrapper">
-     {{ field.errors }}
-     {{ field.label_tag }}
-     {% comment %} <label for="{{ field.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label }}</label> {% endcomment %}
+    <div class="fieldWrapper">
+      {{ field.errors }}
+      {{ field.label_tag }}
+      {% comment %} <label for="{{ field.id_for_label }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ field.label }}</label> {% endcomment %}
 
-     {{ field }}
-   </div>
- {% endfor %}
+      {{ field }}
+    </div>
+  {% endfor %}
