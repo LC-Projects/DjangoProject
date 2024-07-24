@@ -21,6 +21,14 @@ def AllForumsView(request):
             'bg': 'red',
             'link': '#', 
             'icon': '<i class="fa-solid fa-kitchen-set"></i>', 
+            'label': 'All', 
+            'count': 10
+        },
+        {
+            'color': 'white',
+            'bg': 'red',
+            'link': '#', 
+            'icon': '<i class="fa-solid fa-kitchen-set"></i>', 
             'label': 'Recipes', 
             'count': 10
         },
@@ -57,6 +65,61 @@ def AllForumsView(request):
 
 
 
+
+
+def SingleForumView(request, id):
+    template_name = 'forum/single.html'
+    
+    # TODO: Retrieve the forum with the id
+    # TODO: If the id does not exist, return a 404 error
+    
+    context = {}
+    context['data'] = {
+        'id': id,
+        'title': 'How to make a cake',
+        'category': 'Recipes',
+        'author': 'John Doe',
+        'date': combineDateAndAgo('2021-09-01'),
+        'content': 'This is how you make a cake',
+        'comments': 10,
+        'likes': 100
+    }
+    
+    context['comments'] = [
+        {
+            'author': 'Jane Doe',
+            'date': combineDateAndAgo('2024-03-01'),
+            'content': 'This is a comment',
+            'likes': 10
+        },
+        {
+            'author': 'Jane Doe',
+            'date': combineDateAndAgo('2024-03-01'),
+            'content': 'This is a comment',
+            'likes': 10
+        },
+        {
+            'author': 'Jane Doe',
+            'date': combineDateAndAgo('2024-03-01'),
+            'content': 'This is a comment',
+            'likes': 10
+        },
+    ]
+    
+    return render(request, template_name, context)
+
+
+
+
+
+
+
+
+
+
+
+
+# UTILS FUNCTIONS
 def convertDateToFrenchFormat(date):
     # 2021-09-01
     # 01/09/2021
