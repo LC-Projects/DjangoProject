@@ -84,6 +84,7 @@
 {% block extra_js %}
     <script>
         const chatId = {{ chat.id }};
+        const user_language = "{{ user_language }}";
     </script>
     <script src="{% static 'chats/chat_detail.js' %}"></script>
 {% endblock %}
