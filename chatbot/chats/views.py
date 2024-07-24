@@ -195,3 +195,19 @@ def process_content(content):
     content = re.sub(pattern, replace_line_breaks, content, flags=re.DOTALL)
 
     return content
+
+
+def change_private(request):
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Invalid method'})
+    else:
+        chat = request.POST.get('chat_id')
+        is_private = request.POST.get('is_private')
+        if is_private == 'true':
+            is_private = True
+        else:
+            is_private = False
+        chat = Chat.objects.get(pk=chat)
+        chat.is_private = is_private
+        chat.save()
+        return JsonResponse({'status': 'Valid', 'is_private': chat.is_private})
