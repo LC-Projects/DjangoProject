@@ -124,7 +124,7 @@ def add_message(request):
             System: 4. Avoid the Latin alphabet whenever possible;
             System: 5. Translate any other language to the {request.user.profile.language} language whenever possible.
             System: 6. Answer me according to my mood, i'm {request.user.profile.emotion}.
-            System: 7. Adapt your response to my age, i'm {age} years old.
+            System: 7. Adapte your response to my age, i'm {age} years old.
         """))
         # Add the new user message to the context
         langchain_messages.append(HumanMessage(content=content))

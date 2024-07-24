@@ -40,6 +40,7 @@
                 <input value="{{ form.birthdate.value|date:"Y-m-d" }}" type="date" name="birthdate" id="id_birthdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
               </div>
 
+              {% comment %} Mood Selector {% endcomment %}
               <div>
                 <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Humeur</label>
                 <select name="emotion" id="id_emotion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -50,7 +51,9 @@
                   <option value="I don't care" {% if form.emotion.value == "I don't care" %} selected {% endif %}>🖕 I don't care</option>
                 </select>
               </div>
+              {% comment %} End Mood Selector {% endcomment %}
 
+              {% comment %} Langauge Selector {% endcomment %}
               <div>
                 <label for="language" class="block mb-2 text-sm font-medium text-gray-900">Default language four output of ChatGPT</label>
                 <input type="hidden" id="id_language" name="language" value="{{form.language.value}}">
@@ -65,6 +68,8 @@
                   </div>
                 </div>
               </div>
+              {% comment %} End Languge Selector {% endcomment %}
+
             </div>
 
             <div class="text-end">
@@ -75,53 +80,8 @@
       </div>
     </div>
   </section>
+{% endblock %}
 
-
-
-  <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownSelected = document.querySelector('.dropdown-selected');
-            const dropdownOptions = document.querySelector('.dropdown-options');
-            const hiddenInput = document.getElementById('id_language');
-    
-            // Function to update the dropdown based on the hidden input's value
-            function updateDropdownSelection() {
-                document.querySelectorAll('.dropdown-option').forEach(option => {
-                    if (option.dataset.value === hiddenInput.value) {
-                        // Copy the entire HTML content, including the flag
-                        dropdownSelected.innerHTML = option.innerHTML;
-                        dropdownSelected.dataset.value = option.dataset.value;
-                    }
-                });
-            }
-    
-            // Initial update of the dropdown to reflect the hidden input's value
-            updateDropdownSelection();
-    
-            // Toggle dropdown options visibility
-            dropdownSelected.addEventListener('click', function() {
-                dropdownOptions.classList.toggle('hidden');
-            });
-    
-            // Update selected item, hide options, and update hidden input when an option is clicked
-            document.querySelectorAll('.dropdown-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    // Copy the entire HTML content, including the flag
-                    dropdownSelected.innerHTML = this.innerHTML;
-                    dropdownSelected.dataset.value = this.dataset.value;
-                    dropdownOptions.classList.add('hidden');
-                    
-                    // Update the hidden input's value
-                    hiddenInput.value = this.dataset.value;
-                });
-            });
-    
-            // Optional: Hide dropdown options when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!dropdownSelected.contains(e.target) && !dropdownOptions.contains(e.target)) {
-                    dropdownOptions.classList.add('hidden');
-                }
-            });
-        });
-        </script>
+{% block extra_js %}
+  <script src="{% static "js/language_selector.js" %}" ></script>
 {% endblock %}

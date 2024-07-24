@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'home',
     'allauth',
     'allauth.account',
-    'highlightjs'
+    'highlightjs',
+    'forum',
 ]
 
 LOGIN_REDIRECT_URL = '/'
