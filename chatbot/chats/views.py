@@ -14,7 +14,7 @@ from django_filters.views import FilterView
 
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_openai import ChatOpenAI
-
+from datetime import date
 import os
 import re
 import markdown
@@ -112,14 +112,19 @@ def add_message(request):
             else:
                 langchain_messages.append(HumanMessage(content=msg.content))
 
+        birthdate = request.user.profile.birthdate
+        today = date.today()
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+
         langchain_messages.append(HumanMessage(content=f"""
-            System: Follow these six instructions below in all your responses:
+            System: Follow these seven instructions below in all your responses:
             System: 1. Use {request.user.profile.language} language only;
             System: 2. Use {request.user.profile.language} alphabet whenever possible;
             System: 3. Do not use English except in programming languages if any;
             System: 4. Avoid the Latin alphabet whenever possible;
             System: 5. Translate any other language to the {request.user.profile.language} language whenever possible.
             System: 6. Answer me according to my mood, i'm {request.user.profile.emotion}.
+            System: 7. Adapt your response to my age, i'm {age} years old.
         """))
         # Add the new user message to the context
         langchain_messages.append(HumanMessage(content=content))
