@@ -24,7 +24,7 @@ def register_view(request):
 
     else:
         form = UserRegistrationForm()
-    return render(request, "accounts/register.html", {"form": form})
+    return render(request, "accounts/login.html", {"form": form})
 
 
 class login_view(generic.FormView):
@@ -82,14 +82,3 @@ class UserProfileEditView(generic.UpdateView):
     def get_object(self, queryset=None):
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        context['languages'] = [
-            {'code': 'us', 'name': 'English'},
-            {'code': 'es', 'name': 'Spanish'},
-            {'code': 'fr', 'name': 'French'},
-            {'code': 'de', 'name': 'German'},
-        ]
-        return context
