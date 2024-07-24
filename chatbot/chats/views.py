@@ -23,6 +23,7 @@ import markdown
 langchain_client = ChatOpenAI(api_key=os.environ.get('API_KEY', ''))
 
 
+
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
     category = ModelChoiceFilter(queryset=Category.objects.all(), label='Category')
@@ -104,12 +105,22 @@ def add_message(request):
 
         # Create LangChain message objects for the context
         langchain_messages = []
+
         for msg in reversed(context_messages):
             if msg.is_bot:
                 langchain_messages.append(AIMessage(content=msg.content))
             else:
                 langchain_messages.append(HumanMessage(content=msg.content))
 
+        langchain_messages.append(HumanMessage(content=f"""
+            System: Follow these six instructions below in all your responses:
+            System: 1. Use {request.user.profile.language} language only;
+            System: 2. Use {request.user.profile.language} alphabet whenever possible;
+            System: 3. Do not use English except in programming languages if any;
+            System: 4. Avoid the Latin alphabet whenever possible;
+            System: 5. Translate any other language to the {request.user.profile.language} language whenever possible.
+            System: 6. Answer me according to my mood, i'm {request.user.profile.emotion}.
+        """))
         # Add the new user message to the context
         langchain_messages.append(HumanMessage(content=content))
 

@@ -1,0 +1,52 @@
+/* Privacy Page Styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    line-height: 1.5;
+}
+
+h2 {
+    color: #4a76a8;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+p, li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+ul {
+    margin-left: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for privacy concerns
+ul li {
+    list-style-type: disc;
+} */
+
+/* Enhances the visibility of cautionary notes */
+p {
+    margin: 20px 0;
+}
+
+/* Emphasizes the importance of user's control over personal information */
+h2:last-of-type {
+    margin-top: 30px;
+}
+
+/* Adjusts the layout for better readability */
+body {
+    margin: 20px;
+}

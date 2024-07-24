@@ -62,7 +62,7 @@ class UserEditView(generic.UpdateView):
     
 class UserProfileEditView(generic.UpdateView):
     model = Profile
-    fields = ['bio', 'avatar', 'birthdate']
+    fields = ['bio', 'avatar', 'birthdate', 'emotion', 'location', 'language']
     template_name = 'accounts/edit_profile.html'
     success_url = reverse_lazy('auth:edit_profile')
     
