@@ -43,10 +43,11 @@
               <div>
                 <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Humeur</label>
                 <select name="emotion" id="id_emotion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <option value="happy" {% if form.emotion.value == "happy" %} selected {% endif %}>Happy</option>
-                  <option value="sad" {% if form.emotion.value == "sad" %} selected {% endif %}>Sad</option>
-                  <option value="angry" {% if form.emotion.value == "angry" %} selected {% endif %}>Angry</option>
-                  <option value="neutral" {% if form.emotion.value == "neutral" %} selected {% endif %}>Neutral</option>
+                  <option value="happy" {% if form.emotion.value == "happy" %} selected {% endif %}>🙂 Happy</option>
+                  <option value="sad" {% if form.emotion.value == "sad" %} selected {% endif %}>😭 Sad</option>
+                  <option value="angry" {% if form.emotion.value == "angry" %} selected {% endif %}>😡 Angry</option>
+                  <option value="neutral" {% if form.emotion.value == "neutral" %} selected {% endif %}>😐 Neutral</option>
+                  <option value="I don't care" {% if form.emotion.value == "I don't care" %} selected {% endif %}>🖕 I don't care</option>
                 </select>
               </div>
 

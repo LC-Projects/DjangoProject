@@ -87,7 +87,7 @@ class UserProfileEditView(generic.UpdateView):
         context = super().get_context_data(**kwargs)
         
         context['languages'] = [
-            {'code': 'en', 'name': 'English'},
+            {'code': 'us', 'name': 'English'},
             {'code': 'es', 'name': 'Spanish'},
             {'code': 'fr', 'name': 'French'},
             {'code': 'de', 'name': 'German'},
