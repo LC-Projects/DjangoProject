@@ -52,14 +52,17 @@
 
               <div>
                 <label for="language" class="block mb-2 text-sm font-medium text-gray-900">Default language four output of ChatGPT</label>
-                <select name="language" id="id_language" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  {% comment %} ajoute une image de drapeau par pays {% endcomment %}
-                    <option value="" {% if form.language.value == "" %} selected {% endif %}>Choisissez une langue</option>
-                    <option value="English" {% if form.language.value == "English" %} selected {% endif %}>English</option>
-                    <option value="French" {% if form.language.value == "French" %} selected {% endif %}>Français</option>
-                    <option value="Spanish" {% if form.language.value == "Spanish" %} selected {% endif %}>Española</option>
-                    <option value="German" {% if form.language.value == "German" %} selected {% endif %}>Deutsch</option>
-                </select>
+                <input type="hidden" id="id_language" name="language" value="{{form.language.value}}">
+                <div class="relative dropdown-container bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <div class="dropdown-selected p-2.5 cursor-pointer flex items-center">Choisissez une langue</div>
+                  <div class="dropdown-options hidden absolute bg-white dark:bg-gray-700 border mt-1 rounded-lg w-full z-10">
+                      {% for language in languages %}
+                        <div class="dropdown-option p-2.5 cursor-pointer flex items-center" data-value="{{ language.code }}">
+                          <img src="/static/country-flags/png100px/{{ language.code|lower }}.png" alt="" class="h-3.5 w-3.5 rounded-full mr-2"> {{ language.name }}
+                        </div>
+                      {% endfor %}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -71,4 +74,53 @@
       </div>
     </div>
   </section>
+
+
+
+  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownSelected = document.querySelector('.dropdown-selected');
+            const dropdownOptions = document.querySelector('.dropdown-options');
+            const hiddenInput = document.getElementById('id_language');
+    
+            // Function to update the dropdown based on the hidden input's value
+            function updateDropdownSelection() {
+                document.querySelectorAll('.dropdown-option').forEach(option => {
+                    if (option.dataset.value === hiddenInput.value) {
+                        // Copy the entire HTML content, including the flag
+                        dropdownSelected.innerHTML = option.innerHTML;
+                        dropdownSelected.dataset.value = option.dataset.value;
+                    }
+                });
+            }
+    
+            // Initial update of the dropdown to reflect the hidden input's value
+            updateDropdownSelection();
+    
+            // Toggle dropdown options visibility
+            dropdownSelected.addEventListener('click', function() {
+                dropdownOptions.classList.toggle('hidden');
+            });
+    
+            // Update selected item, hide options, and update hidden input when an option is clicked
+            document.querySelectorAll('.dropdown-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Copy the entire HTML content, including the flag
+                    dropdownSelected.innerHTML = this.innerHTML;
+                    dropdownSelected.dataset.value = this.dataset.value;
+                    dropdownOptions.classList.add('hidden');
+                    
+                    // Update the hidden input's value
+                    hiddenInput.value = this.dataset.value;
+                });
+            });
+    
+            // Optional: Hide dropdown options when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownSelected.contains(e.target) && !dropdownOptions.contains(e.target)) {
+                    dropdownOptions.classList.add('hidden');
+                }
+            });
+        });
+        </script>
 {% endblock %}

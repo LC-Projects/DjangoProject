@@ -82,3 +82,14 @@ class UserProfileEditView(generic.UpdateView):
     def get_object(self, queryset=None):
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['languages'] = [
+            {'code': 'en', 'name': 'English'},
+            {'code': 'es', 'name': 'Spanish'},
+            {'code': 'fr', 'name': 'French'},
+            {'code': 'de', 'name': 'German'},
+        ]
+        return context
