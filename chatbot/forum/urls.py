@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path("", views.AllForumsView, name="home"),
-    path("<int:id>", views.SingleForumView, name="forum"),
+    path("<slug:slug>/", views.ForumByCategoryView, name="home_slug"),
 ]

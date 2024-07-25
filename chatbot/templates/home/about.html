@@ -10,24 +10,72 @@
 {% endblock %}
 
 {% block content %}
-    <br>
-    <p>This is the about page used to describe our website and its purpose. We've created a platform that leverages the power of conversational AI to provide users with an interactive chatbot experience.</p>
-    <br><hr><br>
-    <h2>Our Mission</h2>
-    <p>Our mission is to make information and assistance more accessible through the use of advanced AI technology. We believe in the power of AI to transform communication, making it more efficient, personal, and insightful.</p>
-    <br><hr><br>
-    <h2>Why ChatGPT?</h2>
-    <p>We chose ChatGPT because of its unparalleled ability to understand and generate human-like text. This technology allows our chatbot to provide responses that are not only accurate but also contextually relevant, making for a more engaging user experience.</p>
-    <br><hr><br>
-    <h2>Our Technology</h2>
-    <p>Our site is powered by Django, a high-level Python web framework that encourages rapid development and clean, pragmatic design. Coupled with ChatGPT, we've created a robust platform capable of handling complex queries and providing insightful responses.</p>
-    <br><hr><br>
-    <h2>Co-creation with Copilot</h2>
-    <p>The development of our platform was significantly accelerated with the help of GitHub Copilot. This AI-powered code completion tool assisted us in writing better code faster, enabling us to focus on the unique aspects of our project.</p>
-    <br><hr><br>
-    <h2>What You Can Do Here</h2>
-    <p>Our chatbot is designed to answer your questions across a wide range of topics. Whether you're looking for information, advice, or just someone to talk to, our chatbot is here to assist you 24/7.</p>
-    <br><hr><br>
-    <h2>Future Directions</h2>
-    <p>We are constantly working to improve our chatbot and expand its capabilities. Our goal is to make our chatbot more intuitive, more knowledgeable, and more helpful to our users. Stay tuned for future updates and enhancements.</p>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Frequently asked questions</h2>
+            <div class="grid pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700 md:grid-cols-2">
+                <div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            What about us?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">we are 3 student developers for the LiveCampus school currently training to pass our state-recognized certification equivalent to BAC+4 :</p>
+                        <p class="text-gray-500 dark:text-gray-400">- developer named <a href='https://github.com/LuckyMarty' class="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">Lucky Marty</a></p>
+                        <p class="text-gray-500 dark:text-gray-400">- developer named <a href='https://github.com/TeyKz' class="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">Mathieu VIDOT</a></p>
+                        <p class="text-gray-500 dark:text-gray-400">- developer named <a href='https://github.com/JonathanMrtn' class="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">Jonathan MARTIN</a></p>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            Why have done this website?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">We had a mission past weeks ago to do a functional website which use python and django onto framework to make an application which respond to some contraints of a website like ChatGPT have done.</p>
+                        <p class="text-gray-500 dark:text-gray-400">We choose to developp a similar application like Chat GPT but with our personnal touch.</p>
+                        <p class="text-gray-500 dark:text-gray-400">We also need, weeks after, to deploy and improve it to make it more powerful and responsive, we choose to enable a pulic and private parts of our site and more personnalisation into the communication with Chat-GPT by using agents.</p>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            Why use Python has primary language?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">First of all, because i was the constraint of the project by using Django</p>
+                        <p class="text-gray-500 dark:text-gray-400">Second, because, it work very well for this project, this langage is really powerful to use Artificial Intelligence.</p>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            Why use Django to build this website?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">First of all, because i was the constraint of the project by using Django</p>
+                        <p class="text-gray-500 dark:text-gray-400">Second, because, it sipmly work, it's easy to take and make models, views and templats (MVT).</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            How we deploy it?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">We use <a href='https://www.pythonanywhere.com/' class="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">PythonAnyWhere</a> which permit to deploy it for free into the internet web page.</p>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            Could we improve the website by the report of community?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">YES ! We are open, to new personnalisation of your website, you can transmit by using our contact page and give us more information to add or imrove what's already done.</p>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                            <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                            What are our next projects?
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">We gonna all return to our companies to make projects works like we done when we are not making project for LiveCampus but we are able to create a lot of other project which add skills to developp at IT.</p>
+                        <p class="text-gray-500 dark:text-gray-400">You can see our <a href='https://github.com/LC-Projects' class="font-medium underline text-primary-600 dark:text-primary-500 hover:no-underline">lastest projects</a> build for LiveCampus with different langage used an some technology with other frameworks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

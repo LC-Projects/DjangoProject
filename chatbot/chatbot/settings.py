@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'highlightjs',
     'forum',
+    'notification',
+    'feedback',
 ]
 
 LOGIN_REDIRECT_URL = '/'
@@ -139,7 +141,7 @@ if os.environ.get('DEV', '') == 'True':
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-    
+
 else:
     DATABASES = {
         'default': {

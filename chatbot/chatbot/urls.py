@@ -40,8 +40,10 @@ urlpatterns = [
                   path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
                       template_name='accounts/password_reset_complete.html',
                   ), name='password_reset_complete'),
-                  
+
                   path('forum/', include(('forum.urls', 'forum'), namespace='forum')),
+                  path('notification/', include(('notification.urls', 'notification'), namespace='notification')),
+                  path('feedback/', include(('feedback.urls', 'feedback'), namespace='feedback')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

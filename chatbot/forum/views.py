@@ -1,122 +1,128 @@
 import datetime
 from django.shortcuts import render
+from django.urls import reverse
+
+from chats.models import Chat, Category, Comment, Message
+
 
 # Create your views here.
 
 def AllForumsView(request):
     template_name = 'forum/home.html'
-    
+
     # TODO: Retrive all catergories, get the count of posts in each category and display them in the leftside bar
-    # categories = Category.objects.all()
-    
-    # To get icons: https://fontawesome.com/search
-    
-    context = {}
-    context['leftside'] = [
+    categories = Category.objects.all()
+    public_chats = Chat.objects.filter(is_private=False)
+    comments = Comment.objects.all()
+    messages = Message.objects.filter(is_bot=False)
+
+    categories_data = []
+    categories_data.append(
         {
             'hr': True
-        },
-        {
-            'color': 'white',
-            'bg': 'red',
-            'link': '#', 
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>', 
-            'label': 'All', 
-            'count': 10
-        },
-        {
-            'color': 'white',
-            'bg': 'red',
-            'link': '#', 
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>', 
-            'label': 'Recipes', 
-            'count': 10
-        },
-        {
-            'color': 'white',
-            'bg': 'blue',
-            'link': '#', 
-            'icon': '<i class="fa-solid fa-calculator"></i>', 
-            'label': 'Math', 
-            'count': 10
-        },
-    ]
-    
-    context['recipe'] = [
-        {
-            'title': 'How to make a cake',
-            'author': 'John Doe',
-            'date': combineDateAndAgo('2021-09-01'),
-            'content': 'This is how you make a cake',
-            'comments': 10,
-            'likes': 100
-        },
-        {
-            'title': 'How to make a pizza',
-            'author': 'Jane Doe',
-            'date': combineDateAndAgo('2024-03-01'),
-            'content': 'This is how you make a pizza',
-            'comments': 10,
-            'likes': 100
         }
-    ]
-    
-    return render(request, template_name, context)
+    )
+    categories_data.append(
+        {
+            'color': 'white',
+            'bg': 'red',
+            'link': reverse('forum:home'),
+            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
+            'label': 'All',
+            'count': public_chats.count()
+        }
+    )
+    for category in categories:
+        category_data = {
+            'color': 'white',
+            'bg': 'red',
+            'link': reverse('forum:home_slug', args=[category.slug]),
+            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
+            'label': category.name,
+            'count': Chat.objects.filter(category=category).count(),
+            'slug': category.slug
+        }
+        categories_data.append(category_data)
+    # To get icons: https://fontawesome.com/search
 
-
-
-
-
-def SingleForumView(request, id):
-    template_name = 'forum/single.html'
-    
-    # TODO: Retrieve the forum with the id
-    # TODO: If the id does not exist, return a 404 error
-    
+    chats_datas = []
+    for chat in public_chats:
+        message = messages.filter(chat=chat).order_by('created_at').first()
+        message_content = f"{message.content[:30]}..." if message else ''
+        chat_data = {
+            'id': chat.id,
+            'title': chat.name,
+            'author': chat.user.username,
+            'date': combineDateAndAgo(chat.created_at.strftime('%Y-%m-%d')),
+            'content': message_content,
+            'comments': comments.filter(chat=chat).count(),
+            # 'likes': chat.likes.count()
+        }
+        chats_datas.append(chat_data)
     context = {}
-    context['data'] = {
-        'id': id,
-        'title': 'How to make a cake',
-        'category': 'Recipes',
-        'author': 'John Doe',
-        'date': combineDateAndAgo('2021-09-01'),
-        'content': 'This is how you make a cake',
-        'comments': 10,
-        'likes': 100
-    }
-    
-    context['comments'] = [
-        {
-            'author': 'Jane Doe',
-            'date': combineDateAndAgo('2024-03-01'),
-            'content': 'This is a comment',
-            'likes': 10
-        },
-        {
-            'author': 'Jane Doe',
-            'date': combineDateAndAgo('2024-03-01'),
-            'content': 'This is a comment',
-            'likes': 10
-        },
-        {
-            'author': 'Jane Doe',
-            'date': combineDateAndAgo('2024-03-01'),
-            'content': 'This is a comment',
-            'likes': 10
-        },
-    ]
-    
+    context['leftside'] = categories_data
+
+    context['recipe'] = chats_datas
+
     return render(request, template_name, context)
 
+def ForumByCategoryView(request, slug):
+    template_name = 'forum/home.html'
+    categories = Category.objects.all()
+    public_chats = Chat.objects.filter(is_private=False)
+    public_chats_cat = public_chats.filter(is_private=False, category__slug=slug)
+    comments = Comment.objects.all()
+    messages = Message.objects.filter(is_bot=False)
 
+    categories_data = []
+    categories_data.append(
+        {
+            'hr': True
+        }
+    )
+    categories_data.append(
+        {
+            'color': 'white',
+            'bg': 'red',
+            'link': reverse('forum:home'),
+            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
+            'label': 'All',
+            'count': public_chats.count()
+        }
+    )
+    for category in categories:
+        category_data = {
+            'color': 'white',
+            'bg': 'red',
+            'link': reverse('forum:home_slug', args=[category.slug]),
+            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
+            'label': category.name,
+            'count': Chat.objects.filter(category=category).count(),
+            'slug': category.slug
+        }
+        categories_data.append(category_data)
+    # To get icons: https://fontawesome.com/search
 
+    chats_datas = []
+    for chat in public_chats_cat:
+        message = messages.filter(chat=chat).order_by('created_at').first()
+        message_content = f"{message.content[:30]}..." if message else ''
+        chat_data = {
+            'id': chat.id,
+            'title': chat.name,
+            'author': chat.user.username,
+            'date': combineDateAndAgo(chat.created_at.strftime('%Y-%m-%d')),
+            'content': message_content,
+            'comments': comments.filter(chat=chat).count(),
+            # 'likes': chat.likes.count()
+        }
+        chats_datas.append(chat_data)
+    context = {}
+    context['leftside'] = categories_data
 
+    context['recipe'] = chats_datas
 
-
-
-
-
-
+    return render(request, template_name, context)
 
 
 # UTILS FUNCTIONS
@@ -125,14 +131,15 @@ def convertDateToFrenchFormat(date):
     # 01/09/2021
     return date[8:] + '/' + date[5:7] + '/' + date[:4]
 
+
 def TimeAgo(date):
     # 2021-09-01
     # until now
-    
+
     date = datetime.datetime.strptime(date, '%Y-%m-%d')
     now = datetime.datetime.now()
     diff = now - date
-    
+
     # Assuming diff is a datetime.timedelta object
     if diff.days >= 365.25:
         years = int(diff.days // 365.25)
@@ -151,6 +158,7 @@ def TimeAgo(date):
         return f'{minutes} {"minute" if minutes == 1 else "minutes"} ago'
     else:
         return f'{diff.seconds} {"second" if diff.seconds == 1 else "seconds"} ago'
-    
+
+
 def combineDateAndAgo(date):
     return convertDateToFrenchFormat(date) + ' (' + TimeAgo(date) + ')'

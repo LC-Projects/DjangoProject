@@ -137,4 +137,32 @@ $(document).ready(() => {
             });
         });
     }
+
+    $('input[type="checkbox"].private-checkbox').each(function () {
+        $(this).on('change', function () {
+            const chatId = $(this).data('chat-id');
+            const isPrivate = $(this).prop('checked');
+            $.ajax({
+                url: '/chats/change-private/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                data: {
+                    chat_id: parseInt(chatId),
+                    is_private: isPrivate,
+                },
+                success: function (data) {
+                    if (data.status === 'Valid') {
+                        console.log('Success:', data.message);
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
 });

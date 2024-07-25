@@ -55,6 +55,35 @@
     }
 }
 
+.public-chat-detail-page-body{
+    /* width */
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Track */
+
+        ::-webkit-scrollbar-track {
+            border-radius: 100vh;
+            background: #111827;
+        }
+
+        /* Handle */
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(50, 57, 78, 0.71);
+            border-radius: 100vh;
+            border: 1px solid #edf2f7;
+        }
+
+        /* Handle on hover */
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+}
 pre{
     border-radius: 8px !important;
     background-color: #3a3a3a !important;
