@@ -6,21 +6,59 @@
     <h1 class="mx-auto text-center">Forum</h1>
   </div>
 
-  <div class="grid block md:grid-cols-3 p-4 gap-4">
-    <div class="cols-1/3">
+  <div class="grid block md:grid-cols-3 p-4 gap-12 container mx-auto">
+    <div class="col-span-1">
       <div>
         <button type="button" class="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Start a discussion</button>
       </div>
 
-      <div>
-        <button type="button" class="inline-flex items-center gap-2 w-full px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          <span><i class="fa-regular fa-comments"></i></span>
-            Messages
-          <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">2</span>
-        </button>
-      </div>1
+      <div class="flex flex-col gap-2">
+        {% for item in leftside %}
+          {% if item.hr %}
+            <hr class="my-2 w-[80%] mx-auto" />
+          {% else %}
+            <a href="{{ item.link }}" class="inline-flex items-center justify-between gap-2 w-full px-5 py-2.5 text-sm font-medium text-center text-{{ item.color }} bg-{{ item.bg }}-400 rounded-lg hover:bg-{{ item.bg }}-500 focus:ring-4 focus:outline-none focus:ring-{{ item.bg }}-100 dark:bg-{{ item.bg }}-400 dark:hover:bg-{{ item.bg }}-600 dark:focus:ring-{{ item.bg }}-500">
+              <div class="inline-flex gap-4">
+                <span class="w-4 h-4">{{ item.icon|safe }}</span>
+                <span>{{ item.label }}</span>
+              </div>
+
+              {% if item.count %}
+                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-white rounded-full">{{ item.count }}</span>
+              {% endif %}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
 
-    <div class="cols-2/3">2</div>
+    <div class="col-span-2">
+      <div class="flex flex-col gap-2">
+
+        {% comment %} TODO: Display All; Display by Category {% endcomment %}
+        {% for item in recipe %}
+          <div class="bg-white shadow-md rounded-lg p-4 w-full">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 w-full">
+                <div class="w-10 h-10 bg-gray-300 rounded-full">
+                    <img src="https://picsum.photos/100/100?random={{ forloop.counter }}" alt="category" class="w-full h-full object-cover rounded-full" />
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+                    <p>{{ item.content }}</p>
+                  <p class="text-sm text-gray-500"><a class="text-sky-700 text-underline" href="{% url 'auth:profile' item.author %}">{{ item.author }}</a> - {{ item.date }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-white rounded-full">{{ item.comments }} <i class="fa-solid fa-comment"></i></span>
+{#                <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-white rounded-full">{{ item.likes }} <i class="fa-solid fa-heart"></i></span>#}
+                <a href="{% url 'chats:public_chat_detail' item.id %}" class="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">View</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 {% endblock %}

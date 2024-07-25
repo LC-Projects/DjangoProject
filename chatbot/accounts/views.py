@@ -6,9 +6,10 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserRegistrationForm, UserLoginForm, EditUserForm
-from .models import Profile
+from .models import Profile, User
 from django.shortcuts import get_object_or_404
 
+from chats.models import Chat
 
 
 def register_view(request):
@@ -93,3 +94,25 @@ class UserProfileEditView(generic.UpdateView):
             {'code': 'de', 'name': 'German'},
         ]
         return context
+
+
+def profile_view(request, username):
+    template_name = 'accounts/profile.html'
+    context = {}
+
+    user = User.objects.get(username=username)
+
+    context['user_data'] = user
+
+    datas_chats = []
+    chats = Chat.objects.filter(user=user, is_private=False)
+    for chat in chats:
+        datas_chats.append({
+            'id': chat.id,
+            'name': chat.name,
+            'created_at': chat.created_at,
+        })
+
+    context['datas_chats'] = datas_chats
+
+    return render(request, template_name, context)

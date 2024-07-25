@@ -34,3 +34,11 @@ def remove_media_prefix(value):
         # Remove '/media/' prefix
         return decoded_url.replace('/media/', '', 1)
     return value
+
+@register.filter('has_group')
+def has_group(user, group_name):
+	"""
+	Verifica se este usuário pertence a um grupo
+	"""
+	groups = user.groups.all().values_list('name', flat=True)
+	return True if group_name in groups else False
