@@ -1,0 +1,48 @@
+{% extends '../base.html' %}
+
+{% block title %}
+  Home page
+{% endblock %}
+
+{% block content %}
+  <div class="bg-gradient-to-b from-gray-50 to-gray-100 w-full py-14">
+      <div class="max-w-screen-xl px-8 xl:px-16 mx-auto" id="about">
+      
+        <div>
+          <div class="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16" style="opacity: 1; transform: none;">
+      
+            <div class="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
+              <h1 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-black-600 leading-normal">
+                    Want anything to be easy with <strong>ChatBot</strong>.
+                </h1>
+                <p class="text-black-500 mt-4 mb-6">
+                    Provide a seamless experience for your customers with our chatbot. No more waiting for a response, get instant answers to your questions.
+                </p>
+            </div>
+            
+            <!-- Mood Form -->
+            <div class="row-start-1 sm:row-start-1">
+              <form action="{% url 'auth:edit_mood' %}" method="POST">
+                {% csrf_token %}
+                <label for="mood" class="block text-sm font-medium text-gray-700">How are you feeling today?</label>
+                {% comment %} Mood Selector {% endcomment %}
+                <div>
+                  <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Actual mood</label>
+                  <select name="emotion" id="id_emotion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="happy" {% if form.emotion.value == "happy" %} selected {% endif %}>🙂 Happy</option>
+                    <option value="sad" {% if form.emotion.value == "sad" %} selected {% endif %}>😭 Sad</option>
+                    <option value="angry" {% if form.emotion.value == "angry" %} selected {% endif %}>😡 Angry</option>
+                    <option value="neutral" {% if form.emotion.value == "neutral" %} selected {% endif %}>😐 Neutral</option>
+                    <option value="I don't care" {% if form.emotion.value == "I don't care" %} selected {% endif %}>🖕 I don't care</option>
+                  </select>
+                </div>
+                {% comment %} End Mood Selector {% endcomment %}
+                <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Submit</button>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}

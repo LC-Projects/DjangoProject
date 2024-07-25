@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import generic
@@ -18,8 +18,7 @@ class FeedbackDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         feedback = self.get_object()
-        Feedbacks = Feedback.objects.filter(feedback=feedback)
-        context['feedbacks'] = Feedbacks
+        context['feedback'] = feedback
         return context
 
 @method_decorator(login_required(login_url='auth:login'), name='dispatch')
@@ -57,3 +56,8 @@ class FeedbackView(generic.CreateView):
             # Log form errors
             print(form.errors)
             return self.form_invalid(form)
+        
+def delete_feedback(request, pk):
+    feedback = Feedback.objects.get(pk=pk)
+    feedback.delete()
+    return render(request, "feedback/feedback_list.html")

@@ -13,7 +13,6 @@ from chats.models import Chat
 
 
 def register_view(request):
-    print("register_view", request.POST)
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -25,7 +24,7 @@ def register_view(request):
 
     else:
         form = UserRegistrationForm()
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "accounts/register.html", {"form": form})
 
 
 class login_view(generic.FormView):
@@ -116,3 +115,19 @@ def profile_view(request, username):
     context['datas_chats'] = datas_chats
 
     return render(request, template_name, context)
+
+class UserProfileEditMoodView(generic.UpdateView):
+    model = Profile
+    fields = ['emotion']
+    template_name = 'accounts/edit_profile.html'
+    success_url = reverse_lazy('home:lobby')
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save()
+            messages.success(self.request, f'Profile updated for {self.request.user}')
+            return super().form_valid(form)
+        else:
+            # Log form errors
+            print(form.errors)
+            return self.form_invalid(form)
