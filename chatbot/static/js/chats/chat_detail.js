@@ -5,17 +5,29 @@ $(document).ready(() => {
     const listMessages = $('#list-messages');
     const textArea = $('textarea[name="content"]');
 
-    addMessageForm.on('submit', function (event) {
+
+    addMessageForm.on('submit', sendMessage);
+    addMessageForm.on('keydown', function (event) {
+        if (event.key === 'Enter' && event.ctrlKey && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage(event);
+        }
+    });
+
+    function sendMessage(event) {
         event.preventDefault();
+
+        const form = $('#add_message_form'); // Assuming the form has an ID 'addMessageForm'
+        const textArea = form.find('textarea');
 
         const content = textArea.val();
         appendTempMessage(content);
         scrollBottom();
 
         $.ajax({
-            url: $(this).attr('action'),
+            url: form.attr('action'),
             type: "POST",
-            data: $(this).serialize(),
+            data: form.serialize(),
             dataType: 'json',
             headers: {
                 'X-CSRFToken': csrftoken
@@ -26,7 +38,7 @@ $(document).ready(() => {
                     appendValidMessage(data.new_message);
                     appendValidBotMessage(data.bot_response);
                     scrollBottom();
-                    $(textArea).val('');
+                    textArea.val('');
                 } else {
                     appendErrorMessage(data.new_message);
                 }
@@ -35,7 +47,40 @@ $(document).ready(() => {
                 console.error('Error:', error);
             }
         });
-    });
+    }
+
+    // addMessageForm.on('submit', function (event) {
+    //     event.preventDefault();
+
+    //     const content = textArea.val();
+    //     appendTempMessage(content);
+    //     scrollBottom();
+
+    //     $.ajax({
+    //         url: $(this).attr('action'),
+    //         type: "POST",
+    //         data: $(this).serialize(),
+    //         dataType: 'json',
+    //         headers: {
+    //             'X-CSRFToken': csrftoken
+    //         },
+    //         success: (data) => {
+    //             removeTempMessages();
+    //             if (data.status === 'Valid') {
+    //                 appendValidMessage(data.new_message);
+    //                 appendValidBotMessage(data.bot_response);
+    //                 scrollBottom();
+    //                 $(textArea).val('');
+    //             } else {
+    //                 appendErrorMessage(data.new_message);
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.error('Error:', error);
+    //         }
+    //     });
+    // });
+
 
     function appendTempMessage(content) {
         listMessages.append(`
@@ -151,6 +196,6 @@ $(document).ready(() => {
     scrollBottom();
 
     function scrollBottom() {
-        $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
+        $('main > div').animate({ scrollTop: $('main > div').prop("scrollHeight") }, 1000);
     }
 });
