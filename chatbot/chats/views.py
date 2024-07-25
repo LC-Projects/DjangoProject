@@ -65,7 +65,7 @@ class ChatDetailView(DetailView):
 
             datas.append({
                 'id': message.id,
-                'content': markdown.markdown(content),
+                'content': content,
                 'is_bot': message.is_bot,
                 'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
             })
@@ -284,6 +284,16 @@ def add_comment(request):
                 title=f'New comment on {comment.chat.name}', 
                 description=comment.content, 
                 user=comment.chat.user, 
+                chatId=comment.chat,
+                slug=Chat.objects.get(pk=chat).category.slug
+            )
+            notification.save()
+
+            # add to notification
+            notification = Notification(
+                title=f'New comment on {comment.chat.name}',
+                description=comment.content,
+                user=comment.chat.user,
                 chatId=comment.chat,
                 slug=Chat.objects.get(pk=chat).category.slug
             )

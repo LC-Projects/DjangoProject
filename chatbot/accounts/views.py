@@ -1,13 +1,11 @@
-from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserRegistrationForm, UserLoginForm, EditUserForm
 from .models import Profile, User
-from django.shortcuts import get_object_or_404
 
 from chats.models import Chat
 
@@ -126,3 +124,38 @@ def edit_mood(request):
         return redirect('home:home')
     else:
         return redirect('home:home')
+
+class ChangePasswordView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'accounts/change_password.html'
+    success_url = reverse_lazy("user_profile")
+
+    def post(self, request, *args, **kwargs):
+        old_password: str = request.POST.get("old_password")
+        new_password1: str = request.POST.get('new_password1')
+        new_password2: str = request.POST.get('new_password2')
+
+        user = request.user
+
+        if not user.check_password(old_password):
+            messages.warning(request, "old password doesn't match.")
+            return redirect("auth:password")
+
+        if len(new_password1) < 10:
+            messages.warning(request, "password length should not be less than 10.")
+            return redirect("auth:password")
+
+        if old_password == new_password1:
+            messages.warning(request, "your new password cannot be the same as your old password.")
+            return redirect("auth:password")
+
+        if new_password1 != new_password2:
+            messages.warning(request, "new_password1 and new_password2 do not match.")
+            return redirect("auth:password")
+
+        user.set_password(new_password1)
+        user.save()
+        update_session_auth_hash(request, user)
+        messages.success(request, "password change successfull. your new password would take effect on next login.")
+        logout(request)
+
+        return redirect("auth:login")
