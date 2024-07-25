@@ -1,90 +1,78 @@
-{% extends '../base.html' %}{% load static %}{% load dict_filter %}
+{% extends '../base.html' %}
+{% load static %}
+{% load dict_filter %}
 
 {% block content %}
-    <div class="dark:bg-gray-900 p-8 h-screen chat-detail-page">
-
-        <h1 class="text-4xl mb-4 text-white">Chat: {{ chat.name }}</h1>
-        <div class="w-full  overflow-auto" id="scroll-list-messages">
-
-            <div class="m-auto" id="list-messages">
-                {% for message in messages %}
-                    {% if message.is_bot %}
-                        <div class="flex items-start w-full">
-                            <div class="bg-gray-500 rounded-[8px] p-3 mb-4  gap-2.5 flex items-start">
-                                <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img"
-                                         viewBox="0 0 24 24" class="h-4 w-4 text-white" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg"><title></title>
-                                        <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"></path>
-                                    </svg>
-                                </div>
-                                <div class="flex flex-col w-full  leading-1.5">
-                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
-                                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
-                                    </div>
-                                    <div class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</div>
-                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="flex justify-end">
-                            <div class="mb-4 bg-gray-600 p-3 rounded-[8px] items-start flex gap-2.5">
-                                <div class="flex flex-col w-full  leading-1.5">
-                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">Me</span>
-                                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
-                                    </div>
-                                    <div class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</div>
-                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-                                </div>
-                                <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20"
-                                         aria-hidden="true" class="h-4 w-4 text-white" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                              clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="sticky bottom-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
-            <form class="stretch flex flex-row gap-3 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
-                  action="{% url 'chats:add_message' %}" method="post" id="add_message_form">
-                <input type="hidden" name="chat" value="{{ chat.id }}">
-                <div class="relative flex flex-col h-full flex-1 items-stretch md:flex-col">
-                    <div class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
-                        <textarea tabindex="0" data-id="root" style="height:auto"
-                                  placeholder="Send a message..."
-                                  name="content"
-                                  class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"></textarea>
-                        <button class="absolute p-1 rounded-md bottom-1.5 md:bottom-2.5 bg-transparent disabled:bg-gray-500 right-1 md:right-2 disabled:opacity-40">
-                            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
-                                 stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1 text-white "
-                                 height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </button>
+  <div class="dark:bg-gray-900">
+    <div class="p-8 h-screen chat-detail-page lg:max-w-2xl xl:max-w-3xl mx-auto">
+      <h1 class="text-4xl mb-4 text-white">Chat: {{ chat.name }}</h1>
+      <div class="w-full overflow-auto" id="scroll-list-messages">
+        <div class="m-auto" id="list-messages">
+          {% for message in messages %}
+            {% if message.is_bot %}
+              <div class="flex items-start w-full">
+                <div class="bg-gray-500 rounded-[8px] p-3 mb-4 gap-2.5 flex items-start">
+                  <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" role="img" viewBox="0 0 24 24" class="h-4 w-4 text-white" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                      <title></title>
+                      <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"></path>
+                    </svg>
+                  </div>
+                  <div class="flex flex-col w-full leading-1.5">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                      <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
+                      <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
                     </div>
+                    <div class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</div>
+                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+                  </div>
                 </div>
-            </form>
+              </div>
+            {% else %}
+              <div class="flex justify-end">
+                <div class="mb-4 bg-gray-600 p-3 rounded-[8px] items-start flex gap-2.5">
+                  <div class="flex flex-col w-full leading-1.5">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                      <span class="text-sm font-semibold text-gray-900 dark:text-white">Me</span>
+                      <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ message.created_at }}</span>
+                    </div>
+                    <div class="text-sm font-normal py-2 text-gray-900 dark:text-white">{{ message.content|safe }}</div>
+                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+                  </div>
+                  <div class="relative h-7 w-7 p-1 rounded-sm text-white flex items-center justify-center bg-black/75 text-opacity-100r">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="h-4 w-4 text-white" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
+      </div>
+      <div class="sticky bottom-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
+        <form class="stretch flex flex-row gap-3 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl" action="{% url 'chats:add_message' %}" method="post" id="add_message_form">
+          <input type="hidden" name="chat" value="{{ chat.id }}" />
+          <div class="relative flex flex-col h-full flex-1 items-stretch md:flex-col">
+            <div class="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
+              <textarea tabindex="0" data-id="root" style="height:auto" placeholder="Send a message..." name="content" class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"></textarea>
+              <button class="absolute p-1 rounded-md bottom-1.5 md:bottom-2.5 bg-transparent disabled:bg-gray-500 right-1 md:right-2 disabled:opacity-40">
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 mr-1 text-white" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-
+  </div>
 {% endblock %}
 {% block extra_js %}
-    <script>
+  <script>
         const chatId = {{ chat.id }};
         const user_language = "{{ user_language }}";
     </script>
-    <script src="{% static 'js/chats/chat_detail.js' %}"></script>
+  <script src="{% static 'js/chats/chat_detail.js' %}"></script>
 {% endblock %}
