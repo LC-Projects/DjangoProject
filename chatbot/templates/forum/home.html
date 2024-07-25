@@ -24,7 +24,7 @@
                 </div>
 
                 {% if item.count %}
-                  <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-gray rounded-full">{{ item.count }}</span>
+                  <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-gray-700 bg-white rounded-full">{{ item.count }}</span>
                 {% endif %}
               </a>
             {% endif %}
@@ -44,9 +44,9 @@
                           <img src="https://picsum.photos/100/100?random={{ forloop.counter }}" alt="category" class="w-full h-full object-cover rounded-full" />
                       </div>
                       <div>
-                        <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-                          <p>{{ item.content }}</p>
-                        <p class="text-sm text-gray-500"><a class="text-sky-700 text-underline" href="{% url 'auth:profile' item.author %}">{{ item.author }}</a> - {{ item.date }}</p>
+                        <h2 class="text-lg font-semibold text-white">{{ item.title }}</h2>
+                          <p class="text-gray-400">{{ item.content }}</p>
+                        <p class="text-sm text-gray-500"><a class="text-sky-500 text-underline" href="{% url 'auth:profile' item.author %}">{{ item.author }}</a> - {{ item.date }}</p>
                       </div>
                     </div>
 

@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
 from .models import Chat, Message, Category, Comment
-from django.shortcuts import redirect
+from notification.models import Notification
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 from django_filters.views import FilterView
 
@@ -62,7 +65,7 @@ class ChatDetailView(DetailView):
 
             datas.append({
                 'id': message.id,
-                'content': markdown.markdown(content),
+                'content': content,
                 'is_bot': message.is_bot,
                 'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
             })
@@ -275,5 +278,15 @@ def add_comment(request):
                 'content': comment.content,
                 'created_at': comment.created_at.strftime('%b. %d, %Y'),
             }
+
+            # add to notification
+            notification = Notification(
+                title=f'New comment on {comment.chat.name}',
+                description=comment.content,
+                user=comment.chat.user,
+                chatId=comment.chat,
+                slug=Chat.objects.get(pk=chat).category.slug
+            )
+            notification.save()
 
             return JsonResponse({'status': 'Valid', 'new_comment': comment_dict})
