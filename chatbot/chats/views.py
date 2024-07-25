@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
-from .models import Chat, Message, Category
-from django.shortcuts import render
+from .models import Chat, Message, Category, Comment
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 
@@ -18,6 +18,8 @@ from datetime import date
 import os
 import re
 import markdown
+
+from accounts.models import User
 
 # Initialize LangChain with your API key or necessary configuration
 langchain_client = ChatOpenAI(api_key=os.environ.get('API_KEY', ''))
@@ -195,3 +197,85 @@ def process_content(content):
     content = re.sub(pattern, replace_line_breaks, content, flags=re.DOTALL)
 
     return content
+
+
+def change_private(request):
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Invalid method'})
+    else:
+        chat = request.POST.get('chat_id')
+        is_private = request.POST.get('is_private')
+        if is_private == 'true':
+            is_private = True
+        else:
+            is_private = False
+        chat = Chat.objects.get(pk=chat)
+        chat.is_private = is_private
+        chat.save()
+        return JsonResponse({'status': 'Valid', 'is_private': chat.is_private})
+
+
+
+class PublicChatDetailView(DetailView):
+    model = Chat
+    template_name = 'chats/public_chat_detail.html'
+    context_object_name = 'chat'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        chat = self.get_object()
+        messages = Message.objects.filter(chat=chat)
+        comments = Comment.objects.filter(chat=chat)
+        datas = []
+        datas_comments = []
+        for message in messages:
+            content = message.content
+
+            content = process_content(content)
+
+            datas.append({
+                'id': message.id,
+                'content': markdown.markdown(content),
+                'is_bot': message.is_bot,
+                'created_at': message.created_at.strftime('%d/%m/%Y %H:%M:%S'),
+            })
+
+        for comment in comments:
+            datas_comments.append({
+                'id': comment.id,
+                'username': comment.user.username,
+                'content': comment.content,
+                # Mar. 12, 2022
+                'created_at': comment.created_at.strftime('%b. %d, %Y'),
+            })
+        context['messages'] = datas
+        context['comments'] = datas_comments
+        context['body_class'] = 'public-chat-detail-page-body'
+        return context
+
+@login_required(login_url='auth:login')
+def add_comment(request):
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Invalid method'})
+    else:
+        chat = request.POST.get('chat')
+        content = request.POST.get('comment')
+
+        try:
+            user = User.objects.get(pk=request.POST.get('user'))
+        except ObjectDoesNotExist:
+            return redirect('auth:login')
+        else:
+
+            # Save the user's comment
+            comment = Comment(chat_id=chat, content=content, user=user)
+            comment.save()
+
+            comment_dict = {
+                'id': comment.id,
+                'username': comment.user.username,
+                'content': comment.content,
+                'created_at': comment.created_at.strftime('%b. %d, %Y'),
+            }
+
+            return JsonResponse({'status': 'Valid', 'new_comment': comment_dict})

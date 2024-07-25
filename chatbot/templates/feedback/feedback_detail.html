@@ -23,9 +23,6 @@
                         <div class="flex items center">
                             <span class="text-sm font-medium text-gray-900 dark:text-gray-300">{{ feedback.message }}</span>
                         </div>
-                        <div class="flex items center">
-                            <a href="{% url 'feedback:delete' feedback.id %}" class="text-sm font-medium text-red-500 dark:text-red-400">Delete</a>
-                        </div>
                     </div>
                 {% endfor %}
             </div>

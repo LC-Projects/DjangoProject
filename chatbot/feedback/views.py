@@ -26,7 +26,7 @@ class FeedbackDetailView(DetailView):
 class FeedbackFilterView(FilterView):
     model = Feedback
     template_name = 'feedback/feedback_list.html'
-    context_object_name = 'feedback'
+    context_object_name = 'feedbacks'
 
     def get_queryset(self):
         return super().get_queryset()

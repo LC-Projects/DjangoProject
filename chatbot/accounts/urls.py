@@ -15,4 +15,5 @@ urlpatterns = [
 
     path('edit_user/', UserEditView.as_view(), name='edit_user'),
     path('edit_profile/', UserProfileEditView.as_view(), name='edit_profile'),
+    path('profile/<str:username>/', views.profile_view, name='profile'),
 ]

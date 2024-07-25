@@ -65,6 +65,9 @@ INSTALLED_APPS = [
     'highlightjs',
     'forum',
     'notification',
+    'feedback',,
+    'forum',
+    'notification',
     'feedback',
 ]
 
