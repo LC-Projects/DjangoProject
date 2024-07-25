@@ -120,7 +120,6 @@ $(document).ready(() => {
     }
 
     function appendValidBotMessage(message) {
-        console.log('=======>',message.content)
         let parsed = reader.parse(message.content);
         let message_content = writer.render(parsed);
         // message_content contains code block add the class hljs

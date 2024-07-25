@@ -31,18 +31,18 @@
               </div>
 
               <div>
-                <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio</label>
+                <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
                 <textarea id="id_bio" name="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write something about you here...">{{ form.bio.value }}</textarea>
               </div>
 
               <div>
-                <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900">Date de naissance</label>
+                <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900">Birthdate</label>
                 <input value="{{ form.birthdate.value|date:"Y-m-d" }}" type="date" name="birthdate" id="id_birthdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
               </div>
 
               {% comment %} Mood Selector {% endcomment %}
               <div>
-                <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Humeur</label>
+                <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Actual mood</label>
                 <select name="emotion" id="id_emotion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value="happy" {% if form.emotion.value == "happy" %} selected {% endif %}>🙂 Happy</option>
                   <option value="sad" {% if form.emotion.value == "sad" %} selected {% endif %}>😭 Sad</option>

@@ -1,5 +1,5 @@
 {% load dict_filter %}
-<header>
+<header class="sticky top-0 z-20">
     {% comment %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -89,31 +89,46 @@
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {% if request.user|has_group:"Développeur" or user.is_superuser %}
-                        <a href="{% url 'feedback:home' %}"
+                        <a href="{% url 'feedback:feedback_list' %}"
                            class="relative flex items-center justify-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 h-8 w-8">
                             <button type="button"
-                                    class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                    class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">View feedbacks</span>
                                 <span class="h-6 w-6"><i class="fa fa-comments"></i></span>
                             </button>
                         </a>
                     {% endif %}
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'notification:home' %}"
-                       class="relative flex items-center justify-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 h-8 w-8">
-                        <button type="button"
-                                class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
-                            </svg>
-                        </button>
-                    </a>
-                    {% endif %}
+                    <!-- notification dropdown -->
+                    <div class="relative ml-3">
+                        <div>
+                            {% if user.is_authenticated %}
+                                <button type="button"
+                                        class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none c focus:ring-offset-2 focus:ring-offset-gray-800"
+                                        id="notification-menu-button" aria-expanded="false" aria-haspopup="true">
+                                    <span class="sr-only">Open notification menu</span>
+                                    <span class=""><i class="fa fa-bell text-white text-lg"></i></span>
+                                </button>
+                                <div id="notification-menu-dropdown"
+                                    class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                    role="menu" aria-orientation="vertical" aria-labelledby="notification-menu-button" tabindex="-1">
+                                    {% for notification in notifications %}
+                                        <a href="{% url 'forum:home_slug' %}" class="block px-4 py-2 text-sm text-gray-700"
+                                        role="menuitem" tabindex="-1" id="user-menu-item-0">{{ notification.title }}</a>
+                                    {% empty %}
+                                        <p class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
+                                        tabindex="-1" id="notification-menu-item-2">No notification</p>
+                                    {% endfor %}
+                                    {% if notifications %}
+                                        <hr/>
+                                        <a href="{% url 'notification:notification_list' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
+                                        tabindex="-1" id="notification-menu-item-2">All notifications</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- END notification dropdown -->
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
                         <div>
@@ -140,20 +155,20 @@
                                     </svg>
                                 </a>
                             {% endif %}
-                        </div>
-
-                        <div id="user-menu-dropdown"
-                             class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <a href="{% url 'auth:edit_profile' %}" class="block px-4 py-2 text-sm text-gray-700"
-                               role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                            <a href="{% url 'auth:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700"
-                               role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                            <hr/>
-                            <a href="/auth/logout/" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
-                               tabindex="-1" id="user-menu-item-2">Sign out</a>
+                            <div id="user-menu-dropdown"
+                                class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                                <a href="{% url 'auth:edit_profile' %}" class="block px-4 py-2 text-sm text-gray-700"
+                                role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                                <a href="{% url 'auth:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700"
+                                role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                                <hr/>
+                                <a href="{% url 'auth:logout' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
+                                tabindex="-1" id="user-menu-item-2">Sign out</a>
+                            </div>
                         </div>
                     </div>
+                    <!-- END Profile dropdown -->
                 </div>
             </div>
         </div>
@@ -175,13 +190,19 @@
     </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userMenuButton = document.getElementById('user-menu-button')
-            const userMenuDropdown = document.getElementById('user-menu-dropdown')
+        toggleVisibility('user-menu-button', 'user-menu-dropdown');
+        toggleVisibility('notification-menu-button', 'notification-menu-dropdown');
 
-            userMenuButton.addEventListener('click', () => {
-                userMenuDropdown.classList.toggle('hidden')
-            })
-        })
+
+        function toggleVisibility(buttonId, elementId) {
+            const button = document.getElementById(buttonId);
+            const element = document.getElementById(elementId);
+
+            if (button && element) {
+                button.addEventListener('click', () => {
+                    element.classList.toggle('hidden');
+                });
+            }
+        }
     </script>
 </header>

@@ -13,7 +13,6 @@ from chats.models import Chat
 
 
 def register_view(request):
-    print("register_view", request.POST)
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -116,3 +115,14 @@ def profile_view(request, username):
     context['datas_chats'] = datas_chats
 
     return render(request, template_name, context)
+
+def edit_mood(request):
+    if request.method == "POST":
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        profile.emotion = request.POST['emotion']
+        profile.save()
+        messages.success(request, f'Mood updated to {profile.emotion}')
+        return redirect('home:home')
+    else:
+        return redirect('home:home')
