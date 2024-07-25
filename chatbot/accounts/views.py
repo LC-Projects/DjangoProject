@@ -66,10 +66,7 @@ class UserProfileEditView(generic.UpdateView):
     template_name = 'accounts/edit_profile.html'
     success_url = reverse_lazy('auth:edit_profile')
     
-    # success_url = '/edit_profile'
-    
     def form_valid(self, form):
-        print("form_valid", form)
         if form.is_valid():
             self.object = form.save()
             messages.success(self.request, f'Profile updated for {self.request.user}')

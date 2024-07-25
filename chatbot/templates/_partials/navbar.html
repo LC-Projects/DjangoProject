@@ -162,6 +162,10 @@
                                 role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                                 <a href="{% url 'auth:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                                {% if request.user|has_group:"Développeur" or user.is_superuser %}
+                                    <a href="{% url 'admin:index' %}" class="block px-4 py-2 text-sm text-gray-700"
+                                    role="menuitem" tabindex="-1" id="user-menu-item-2">Back Office</a>
+                                {% endif %}
                                 <hr/>
                                 <a href="{% url 'auth:logout' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
                                 tabindex="-1" id="user-menu-item-2">Sign out</a>

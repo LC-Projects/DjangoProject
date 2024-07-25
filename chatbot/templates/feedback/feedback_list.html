@@ -7,29 +7,53 @@
 {% block content %}
     <section class="bg-white dark:bg-gray-900">
         <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <div class="flex items-center justify-between mb-4">
+                <a href="{% url 'home:home' %}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"></path></svg>
+                    Home
+                </a>
+            </div>
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Feedbacks</h2>
             <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">List of feedbacks from users</p>
             <div class="space-y-4 md:space-y-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items center">
-                        <span class="text-sm font-medium text-gray-900 dark:text-gray-300">Feedbacks</span>
-                    </div>
-                    <div class="flex items center">
-                        <span class="text-sm font-medium text-gray-900 dark:text-gray-300">Actions</span>
-                    </div>
-                </div>
-                {% for feedback in feedbacks %}
-                    <a href="{% url 'feedback:feedback_detail' feedback.id %}">
-                        <div class="flex items center justify-between">
-                            <div class="flex items center">
-                                <span class="text-sm font-medium text-gray-900 dark:text-gray-300">{{ feedback.subject }}</span>
-                            </div>
-                            <div class="flex items center">
-                                <a href="{% url 'feedback:feedback_delete' feedback.id %}" class="text-sm font-medium text-red-500 dark:text-red-400">Delete</a>
-                            </div>
+                {% if feedbacks %}
+                    <div class="flex items-center justify-between">
+                        <div class="flex items center">
+                            <span class="text-sm font-medium text-gray-900 dark:text-gray-300">Feedbacks</span>
                         </div>
-                    </a>
-                {% endfor %}
+                        <div class="flex items center">
+                            <span class="text-sm font-medium text-gray-900 dark:text-gray-300">Actions</span>
+                        </div>
+                    </div>
+                    {% for feedback in feedbacks %}
+                        <a href="{% url 'feedback:feedback_detail' feedback.id %}">
+                            <div class="flex items center justify-between">
+                                <div class="flex items center">
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-300">{{ feedback.subject }}</span>
+                                </div>
+                                <div class="flex items center">
+                                    <a href="{% url 'feedback:feedback_delete' feedback.id %}" class="text-sm font-medium text-red-500 dark:text-red-400">Delete</a>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="flex items center justify-between">
+                        <div class="flex items center">
+                            <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">No feedbacks yet. Please click on <a href="{% url 'feedback:contact' %}" class="text-blue-500 hover:text-blue-700">Contact</a> to add one. Your feedback is incredibly important to us.</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items center">
+                            <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Feedback provides us with the insights necessary to enhance our services, tailor our work to better meet your needs, and create a more effective and enjoyable user experience. Whether it's a compliment, a suggestion, or a concern, we take all feedback seriously and use it as a foundation for continuous improvement and innovation. Thank you for taking the time to share your thoughts with us.</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items center">
+                            <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Cordialy, <a href="https://github.com/LC-Projects/DjangoProject" class="text-blue-500 hover:text-blue-700">TheTrioLC</a>.</span>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>
