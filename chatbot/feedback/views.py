@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from .models import Feedback
 from django_filters.views import FilterView
@@ -15,6 +16,14 @@ class FeedbackDetailView(DetailView):
     template_name = 'feedback/feedback_detail.html'
     context_object_name = 'feedback'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or request.user.groups.filter(name='Développeur').exists():
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                return HttpResponseRedirect(reverse('home:home'))
+        return HttpResponseRedirect(reverse('auth:login'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         feedback = self.get_object()
@@ -26,6 +35,15 @@ class FeedbackFilterView(FilterView):
     model = Feedback
     template_name = 'feedback/feedback_list.html'
     context_object_name = 'feedbacks'
+
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or request.user.groups.filter(name='Développeur').exists():
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                return HttpResponseRedirect(reverse('home:home'))
+        return HttpResponseRedirect(reverse('auth:login'))
 
     def get_queryset(self):
         return super().get_queryset()

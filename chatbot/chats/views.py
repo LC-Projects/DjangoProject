@@ -1,14 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
 from .models import Chat, Message, Category, Comment
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.http import JsonResponse
-from django.forms.models import model_to_dict
 
 from django_filters.views import FilterView
 
