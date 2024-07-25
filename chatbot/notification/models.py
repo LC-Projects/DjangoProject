@@ -8,6 +8,7 @@ class Notification(models.Model):
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
     slug = models.SlugField(max_length=100, unique=True)
     chatId = models.ForeignKey('chats.Chat', on_delete=models.CASCADE)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.title}'
