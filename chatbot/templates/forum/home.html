@@ -2,63 +2,88 @@
 {% load static %}
 
 {% block content %}
-  <div class="p-12 bg-gray-100">
-    <h1 class="mx-auto text-center">Forum</h1>
+  <div class="p-12 bg-gray-900">
+      <h1 class="text-4xl font-bold text-white mx-auto text-center">Forum</h1>
   </div>
+  <div class="p-12 bg-gray-900">
+    <div class="grid block md:grid-cols-3 p-4 gap-12 container mx-auto">
+      <div class="col-span-1">
+        <div>
+          <button type="button" class="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Start a discussion</button>
+        </div>
 
-  <div class="grid block md:grid-cols-3 p-4 gap-12 container mx-auto">
-    <div class="col-span-1">
-      <div>
-        <button type="button" class="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Start a discussion</button>
+        <div class="flex flex-col gap-2">
+          {% for item in leftside %}
+            {% if item.hr %}
+              <hr class="my-2 w-[80%] mx-auto" />
+            {% else %}
+              <a href="{{ item.link }}" class="inline-flex items-center justify-between gap-2 w-full px-5 py-2.5 text-sm font-medium text-center text-{{ item.color }} bg-{{ item.bg }}-400 rounded-lg hover:bg-{{ item.bg }}-500 focus:ring-4 focus:outline-none focus:ring-{{ item.bg }}-100 dark:bg-{{ item.bg }}-400 dark:hover:bg-{{ item.bg }}-600 dark:focus:ring-{{ item.bg }}-500">
+                <div class="inline-flex gap-4">
+                  <span class="w-4 h-4">{{ item.icon|safe }}</span>
+                  <span>{{ item.label }}</span>
+                </div>
+
+                {% if item.count %}
+                  <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-gray rounded-full">{{ item.count }}</span>
+                {% endif %}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="flex flex-col gap-2">
-        {% for item in leftside %}
-          {% if item.hr %}
-            <hr class="my-2 w-[80%] mx-auto" />
-          {% else %}
-            <a href="{{ item.link }}" class="inline-flex items-center justify-between gap-2 w-full px-5 py-2.5 text-sm font-medium text-center text-{{ item.color }} bg-{{ item.bg }}-400 rounded-lg hover:bg-{{ item.bg }}-500 focus:ring-4 focus:outline-none focus:ring-{{ item.bg }}-100 dark:bg-{{ item.bg }}-400 dark:hover:bg-{{ item.bg }}-600 dark:focus:ring-{{ item.bg }}-500">
-              <div class="inline-flex gap-4">
-                <span class="w-4 h-4">{{ item.icon|safe }}</span>
-                <span>{{ item.label }}</span>
-              </div>
+      {% if recipe %}
+        <div class="col-span-2">
+          <div class="flex flex-col gap-2">
+              {% comment %} TODO: Display All; Display by Category {% endcomment %}
+              {% for item in recipe %}
+                <div class="bg-gray-700 shadow-md rounded-lg p-4 w-full">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 w-full">
+                      <div class="w-10 h-10 bg-gray-300 rounded-full">
+                          <img src="https://picsum.photos/100/100?random={{ forloop.counter }}" alt="category" class="w-full h-full object-cover rounded-full" />
+                      </div>
+                      <div>
+                        <h2 class="text-lg font-semibold">{{ item.title }}</h2>
+                          <p>{{ item.content }}</p>
+                        <p class="text-sm text-gray-500"><a class="text-sky-700 text-underline" href="{% url 'auth:profile' item.author %}">{{ item.author }}</a> - {{ item.date }}</p>
+                      </div>
+                    </div>
 
-              {% if item.count %}
-                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-white rounded-full">{{ item.count }}</span>
-              {% endif %}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-
-    <div class="col-span-2">
-      <div class="flex flex-col gap-2">
-
-        {% comment %} TODO: Display All; Display by Category {% endcomment %}
-        {% for item in recipe %}
-          <div class="bg-white shadow-md rounded-lg p-4 w-full">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2 w-full">
-                <div class="w-10 h-10 bg-gray-300 rounded-full">
-                    <img src="https://picsum.photos/100/100?random={{ forloop.counter }}" alt="category" class="w-full h-full object-cover rounded-full" />
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-gray-700 rounded-full">{{ item.comments }} <i class="fa-solid fa-comment"></i></span>
+                      {# <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-white rounded-full">{{ item.likes }} <i class="fa-solid fa-heart"></i></span>#}
+                      <a href="{% url 'chats:public_chat_detail' item.id %}" class="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">View</a>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-                    <p>{{ item.content }}</p>
-                  <p class="text-sm text-gray-500"><a class="text-sky-700 text-underline" href="{% url 'auth:profile' item.author %}">{{ item.author }}</a> - {{ item.date }}</p>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-white rounded-full">{{ item.comments }} <i class="fa-solid fa-comment"></i></span>
-{#                <span class="inline-flex items-center justify-center gap-2 text-xs font-semibold text-red-500 bg-white rounded-full">{{ item.likes }} <i class="fa-solid fa-heart"></i></span>#}
-                <a href="{% url 'chats:public_chat_detail' item.id %}" class="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">View</a>
-              </div>
-            </div>
+              {% endfor %}
           </div>
-        {% endfor %}
+        </div>
+      {% else %}
+      <div class="flex flex-col items-center justify-center">
+        <div class="flex items center justify-between">
+          <div class="flex items center">
+              <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">No channels yet. Please click on <a href="{% url 'chats:chat_list' %}" class="text-blue-500 hover:text-blue-700">Chats</a> to speak with GPT and make the discussion public to create one.</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="flex items center">
+              <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Share your discussion could help some user to affinate they talking to ChatGPT and have a better prompt answering to their response.</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="flex items center">
+              <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Users can help you too by sending some comments to your discussion to improve the question or correct the answer of ChatGPT which is not always the better you could get, community is the best tools you can contribute to be better.</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="flex items center">
+              <span class="text-lg font-semibold text-gray-700 dark:text-gray-200">Cordialy, <a href="https://github.com/LC-Projects/DjangoProject" class="text-blue-500 hover:text-blue-700">TheTrioLC</a>.</span>
+          </div>
+        </div>
       </div>
     </div>
+  {% endif %}
   </div>
 {% endblock %}
