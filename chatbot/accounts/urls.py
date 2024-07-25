@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
 
-from .views import UserEditView, UserProfileEditView, UserProfileEditMoodView
+from .views import UserEditView, UserProfileEditView
 
 app_name = 'accounts'
 
@@ -15,6 +15,6 @@ urlpatterns = [
 
     path('edit_user/', UserEditView.as_view(), name='edit_user'),
     path('edit_profile/', UserProfileEditView.as_view(), name='edit_profile'),
-    path('edit_mood/', UserProfileEditMoodView.as_view(), name='edit_mood'),
+    path('edit_mood/', views.edit_mood, name='edit_mood'),
     path('profile/<str:username>/', views.profile_view, name='profile'),
 ]

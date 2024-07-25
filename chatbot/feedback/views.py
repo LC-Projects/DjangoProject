@@ -56,8 +56,8 @@ class FeedbackView(generic.CreateView):
             # Log form errors
             print(form.errors)
             return self.form_invalid(form)
-        
+
 def delete_feedback(request, pk):
     feedback = Feedback.objects.get(pk=pk)
     feedback.delete()
-    return render(request, "feedback/feedback_list.html")
+    return redirect('feedback:feedback_list')

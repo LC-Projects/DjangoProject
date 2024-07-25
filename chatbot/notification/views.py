@@ -14,7 +14,7 @@ class NotificationView(generic.CreateView):
     fields = ['user', 'slug', 'chatId']
     template_name = 'home/home.html'
     success_url = reverse_lazy('home:home')
-    
+
     def form_valid(self, form):
         if form.is_valid():
             self.object = form.save()
@@ -24,7 +24,7 @@ class NotificationView(generic.CreateView):
             # Log form errors
             print(form.errors)
             return self.form_invalid(form)
-        
+
 @method_decorator(login_required(login_url='auth:login'), name='dispatch')
 class FeedbackFilterView(FilterView):
     model = Notification

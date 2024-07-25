@@ -116,18 +116,13 @@ def profile_view(request, username):
 
     return render(request, template_name, context)
 
-class UserProfileEditMoodView(generic.UpdateView):
-    model = Profile
-    fields = ['emotion']
-    template_name = 'accounts/edit_profile.html'
-    success_url = reverse_lazy('home:lobby')
-    
-    def form_valid(self, form):
-        if form.is_valid():
-            self.object = form.save()
-            messages.success(self.request, f'Profile updated for {self.request.user}')
-            return super().form_valid(form)
-        else:
-            # Log form errors
-            print(form.errors)
-            return self.form_invalid(form)
+def edit_mood(request):
+    if request.method == "POST":
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        profile.emotion = request.POST['emotion']
+        profile.save()
+        messages.success(request, f'Mood updated to {profile.emotion}')
+        return redirect('home:home')
+    else:
+        return redirect('home:home')
