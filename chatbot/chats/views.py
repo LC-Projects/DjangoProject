@@ -25,7 +25,6 @@ from accounts.models import User
 langchain_client = ChatOpenAI(api_key=os.environ.get('API_KEY', ''))
 
 
-
 class ChatFilterSet(FilterSet):
     name = CharFilter(lookup_expr='icontains', label='Name')
     category = ModelChoiceFilter(queryset=Category.objects.all(), label='Category')
@@ -114,20 +113,21 @@ def add_message(request):
             else:
                 langchain_messages.append(HumanMessage(content=msg.content))
 
-        birthdate = request.user.profile.birthdate
-        today = date.today()
-        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        if request.user.profile:
+            birthdate = request.user.profile.birthdate
+            today = date.today()
+            age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
 
-        langchain_messages.append(HumanMessage(content=f"""
-            System: Follow these seven instructions below in all your responses:
-            System: 1. Use {request.user.profile.language} language only;
-            System: 2. Use {request.user.profile.language} alphabet whenever possible;
-            System: 3. Do not use English except in programming languages if any;
-            System: 4. Avoid the Latin alphabet whenever possible;
-            System: 5. Translate any other language to the {request.user.profile.language} language whenever possible.
-            System: 6. Answer me according to my mood, i'm {request.user.profile.emotion}.
-            System: 7. Adapt your response to my age, i'm {age} years old.
-        """))
+            langchain_messages.append(HumanMessage(content=f"""
+                        System: Follow these seven instructions below in all your responses:
+                        System: 1. Use {request.user.profile.language if request.user.profile.language and request.user.profile.language != "" else "English"} language only;
+                        System: 2. Use {request.user.profile.language if request.user.profile.language and request.user.profile.language != "" else "English"} alphabet whenever possible;
+                        System: 3. Do not use English except in programming languages if any;
+                        System: 4. Avoid the Latin alphabet whenever possible;
+                        System: 5. Translate any other language to the {request.user.profile.language if request.user.profile.language and request.user.profile.language != "" else "English"} language whenever possible.
+                        System: 6. Answer me according to my mood, i'm {request.user.profile.emotion if request.user.profile.emotion and request.user.profile.emotion != "" else "neutral"}.
+                        System: 7. Adapt your response to my age, i'm {age if age > 0 else 18} years old.
+                    """))
         # Add the new user message to the context
         langchain_messages.append(HumanMessage(content=content))
 
@@ -215,7 +215,6 @@ def change_private(request):
         return JsonResponse({'status': 'Valid', 'is_private': chat.is_private})
 
 
-
 class PublicChatDetailView(DetailView):
     model = Chat
     template_name = 'chats/public_chat_detail.html'
@@ -252,6 +251,7 @@ class PublicChatDetailView(DetailView):
         context['comments'] = datas_comments
         context['body_class'] = 'public-chat-detail-page-body'
         return context
+
 
 @login_required(login_url='auth:login')
 def add_comment(request):
