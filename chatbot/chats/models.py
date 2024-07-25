@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, migrations
 from django.utils.text import slugify
 
 
@@ -8,12 +8,14 @@ class Category(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.name)
+        # super().save(*args, **kwargs)
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"
-
+    
 
 # Create your models here.
 class Message(models.Model):
