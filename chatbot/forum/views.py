@@ -39,7 +39,7 @@ def AllForumsView(request):
             'link': reverse('forum:home_slug', args=[category.slug]),
             'icon': '<i class="fa-solid fa-kitchen-set"></i>',
             'label': category.name,
-            'count': Chat.objects.filter(category=category).count(),
+            'count': public_chats.filter(category=category).count(),
             'slug': category.slug
         }
         categories_data.append(category_data)
@@ -97,7 +97,7 @@ def ForumByCategoryView(request, slug):
             'link': reverse('forum:home_slug', args=[category.slug]),
             'icon': '<i class="fa-solid fa-kitchen-set"></i>',
             'label': category.name,
-            'count': Chat.objects.filter(category=category).count(),
+            'count': public_chats.filter(category=category).count(),
             'slug': category.slug
         }
         categories_data.append(category_data)
