@@ -70,7 +70,7 @@ def ForumByCategoryView(request, slug):
     template_name = 'forum/home.html'
     categories = Category.objects.all()
     public_chats = Chat.objects.filter(is_private=False)
-    public_chats_cat = public_chats.filter(is_private=False, category__slug=slug)
+    public_chats_cat = public_chats.filter(category__slug=slug)
     comments = Comment.objects.all()
     messages = Message.objects.filter(is_bot=False)
 

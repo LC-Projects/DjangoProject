@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    let reader = new commonmark.Parser();
+    let writer = new commonmark.HtmlRenderer();
     const addMessageForm = $('form#add_message_form');
     const listMessages = $('#list-messages');
     const textArea = $('textarea[name="content"]');
@@ -118,6 +120,10 @@ $(document).ready(() => {
     }
 
     function appendValidBotMessage(message) {
+        let parsed = reader.parse(message.content);
+        let message_content = writer.render(parsed);
+        // message_content contains code block add the class hljs
+
         listMessages.append(`
             <div class="flex items-start">
                 <div class="bg-gray-500 rounded-[8px] p-3 mb-4  gap-2.5 flex items-start">
@@ -133,16 +139,18 @@ $(document).ready(() => {
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.created_at}</span>
                         </div>
-                        <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">${message.content }</p>
+                        <div class="text-sm font-normal py-2 text-white">${message_content}</div>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                     </div>
                 </div>
             </div>
         `);
+        hljs.highlightAll();
     }
 
     scrollBottom();
-    function scrollBottom(){
+
+    function scrollBottom() {
         $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
     }
 });

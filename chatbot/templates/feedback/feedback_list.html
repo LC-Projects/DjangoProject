@@ -19,14 +19,16 @@
                     </div>
                 </div>
                 {% for feedback in feedbacks %}
-                    <div class="flex items center justify-between">
-                        <div class="flex items center">
-                            <span class="text-sm font-medium text-gray-900 dark:text-gray-300">{{ feedback.subject }}</span>
+                    <a href="{% url 'feedback:feedback_detail' feedback.id %}">
+                        <div class="flex items center justify-between">
+                            <div class="flex items center">
+                                <span class="text-sm font-medium text-gray-900 dark:text-gray-300">{{ feedback.subject }}</span>
+                            </div>
+                            <div class="flex items center">
+                                <a href="{% url 'feedback:feedback_delete' feedback.id %}" class="text-sm font-medium text-red-500 dark:text-red-400">Delete</a>
+                            </div>
                         </div>
-                        <div class="flex items center">
-                            <a href="#" class="text-sm font-medium text-red-500 dark:text-red-400">Delete</a>
-                        </div>
-                    </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>

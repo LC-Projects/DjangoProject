@@ -76,6 +76,8 @@
                   </span>
                 </button>
             </div>
+
+            {% comment %} <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">Post comment</button> {% endcomment %}
           </form>
           <div id="list-comments">
             {% for comment in comments %}
@@ -83,7 +85,7 @@
                 <footer class="flex justify-between items-center mb-2">
                   <div class="flex items-center">
                     <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                      <img class="mr-2 w-6 h-6 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="{{ comment.username }}" />{{ comment.username }}
+                      <img class="mr-2 w-6 h-6 rounded-full" src="{{ request.user.profile.avatar.url|remove_media_prefix }}" alt="{{ comment.username }}" />{{ comment.username }}
                     </p>
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                       <time pubdate datetime="2022-06-23" title="{{ comment.created_at }}">{{ comment.created_at }}</time>
