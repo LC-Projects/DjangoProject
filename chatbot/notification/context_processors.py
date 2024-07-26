@@ -19,18 +19,18 @@ def add_variable_to_context(request):
     
     
     if notifications.filter(user=user_id).exists():
-        notificationData = list(notifications.filter(user=user_id).order_by('-date'))
+        notificationsData = list(notifications.filter(user=user_id).order_by('-date'))
         
-        for notification in notificationData:
+        for notification in notificationsData:
             notification.date = combineDateAndAgo(notification.date.strftime('%Y-%m-%d'))
         
         return {
-            'notifications': notificationData,
+            'notifications': notificationsData,
             'unread_notifications': notifications.filter(user=user_id, is_read=False).count()
         }
     elif notifications.filter(chatId__id=user_id).exists():
         noticationsData = notifications.filter(chatId__id=user_id).order_by('-date')
-        for notification in notificationData:
+        for notification in notificationsData:
             notification.date = combineDateAndAgo(notification.date.strftime('%Y-%m-%d'))
         
         return {
