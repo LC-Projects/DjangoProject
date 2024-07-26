@@ -4,7 +4,7 @@ $(document).ready(() => {
     const addMessageForm = $('form#add_message_form');
     const listMessages = $('#list-messages');
     const textArea = $('textarea[name="content"]');
-    // document.querySelectorAll("pre code.language-html").forEach(el => el.innerText = el.innerHTML.replaceAll('language-xml', ''));
+
 
     addMessageForm.on('submit', sendMessage);
     addMessageForm.on('keydown', function (event) {
@@ -198,6 +198,6 @@ $(document).ready(() => {
     scrollBottom();
 
     function scrollBottom() {
-        $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
+        $('main > div').animate({ scrollTop: $('main > div').prop("scrollHeight") }, 1000);
     }
 });

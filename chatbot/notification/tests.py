@@ -53,7 +53,7 @@ class NotificationModelTest(TestCase):
             title='Test Notification',
             description='This is a test notification.',
             user=self.user,
-            slug='test-notification',
+            author=self.user,
             chatId=self.chat,
         )
 
@@ -63,5 +63,6 @@ class NotificationModelTest(TestCase):
         self.assertEqual(self.notification.title, 'Test Notification')
         self.assertEqual(self.notification.description, 'This is a test notification.')
         self.assertEqual(self.notification.user, self.user)
+        self.assertEqual(self.notification.author, self.user)
         self.assertEqual(self.notification.chatId, self.chat)
         self.assertEqual(str(self.notification), 'Test Notification')

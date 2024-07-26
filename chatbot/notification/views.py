@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from pyexpat.errors import messages
 from django.urls import reverse_lazy
@@ -9,7 +10,7 @@ from django_filters.views import FilterView
 @method_decorator(login_required(login_url='auth:login'), name='dispatch')
 class NotificationView(generic.CreateView):
     model = Notification
-    fields = ['user', 'slug', 'chatId']
+    fields = ['user', 'chatId']
     template_name = 'home/home.html'
     success_url = reverse_lazy('home:home')
 
@@ -36,3 +37,14 @@ class FeedbackFilterView(FilterView):
         context = super().get_context_data(**kwargs)
         context['notifications'] = Notification.objects.all()
         return context
+
+
+def mark_as_read(request, pk):
+    try:
+        notification = Notification.objects.get(pk=pk)
+        notification.is_read = True
+        notification.save()
+    except notification.DoesNotExist:
+        return redirect('chats:public_chat_detail', pk=notification.chatId.id)
+    else:
+        return redirect('chats:public_chat_detail', pk=notification.chatId.id)

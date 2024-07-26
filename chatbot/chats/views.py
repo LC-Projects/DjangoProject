@@ -285,23 +285,40 @@ def add_comment(request):
             }
 
             # add to notification
-            notification = Notification(
-                title=f'New comment on {comment.chat.name}',
-                description=comment.content,
-                user=comment.chat.user,
-                chatId=comment.chat,
-                slug=Chat.objects.get(pk=chat).category.slug
-            )
-            notification.save()
 
-            # add to notification
-            notification = Notification(
-                title=f'New comment on {comment.chat.name}',
-                description=comment.content,
-                user=comment.chat.user,
-                chatId=comment.chat,
-                slug=Chat.objects.get(pk=chat).category.slug
-            )
-            notification.save()
+            # user_id = request.user
+            # notification = Notification(
+            #     title=f'New comment on {comment.chat.name}',
+            #     description=comment.content,
+            #     user=user_id,
+            #     chatId=comment.chat
+            # )
+            # notification.save()
+
+
+            # get all user unique in the chat
+            current_user = request.user
+            users = Comment.objects.filter(chat=chat).values('user').distinct()
+            for user in users:
+                userData = User.objects.get(pk=user['user'])
+                notification = Notification(
+                    title=f'New comment on {comment.chat.name}',
+                    description=comment.content,
+                    user=userData,
+                    author=current_user,
+                    chatId=comment.chat
+                )
+                notification.save()
+
+            # check if the user is not yet in the notification
+            if not Notification.objects.filter(user=current_user, chatId=comment.chat).exists():
+                notification = Notification(
+                    title=f'New comment on {comment.chat.name}',
+                    description=comment.content,
+                    user=current_user,
+                    author=current_user,
+                    chatId=comment.chat
+                )
+                notification.save()
 
             return JsonResponse({'status': 'Valid', 'new_comment': comment_dict})
