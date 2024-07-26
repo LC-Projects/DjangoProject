@@ -5,5 +5,311 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Home page</h1>
+    <div class="p-12 bg-gray-900">
+
+        <div class="bg-gradient-to-b from-gray-900 to-gray-900 w-full py-14">
+            {% if user.is_authenticated %}
+                <div class="max-w-screen-xl px-8 xl:px-16 mx-auto" id="about">
+                    <div>
+                        {% for message in messages %}
+                            {% if forloop.last %}
+                                <div class="alert {{ message.tags }} border-l-4 p-4">
+                                    <p>{{ message }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16"
+                            style="opacity: 1; transform: none;">
+
+                            <div class="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
+                                <h1 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-white leading-normal">
+                                    Want anything to be easy with <strong>ChatBot</strong>.
+                                </h1>
+                                <p class="text-white mt-4 mb-6">
+                                    Provide a seamless experience for your customers with our chatbot. No more waiting
+                                    for a
+                                    response, get instant answers to your questions.
+                                </p>
+                            </div>
+
+                            <!-- Mood Form -->
+                            <div class="row-start-1 sm:row-start-1">
+                                <form action="{% url 'auth:edit_mood' %}" method="POST">
+                                    {% csrf_token %}
+                                    <label for="mood" class="block text-sm font-medium text-gray-200">How are you
+                                        feeling
+                                        today?</label>
+                                    {% comment %} Mood Selector {% endcomment %}
+                                    <div>
+                                        <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Actual
+                                            mood</label>
+                                        <select name="emotion" id="id_emotion"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option value="happy" {% if user.profile.emotion == "happy" %}
+                                                    selected {% endif %}>🙂
+                                                Happy
+                                            </option>
+                                            <option value="sad" {% if user.profile.emotion == "sad" %}
+                                                    selected {% endif %}>😭
+                                                Sad
+                                            </option>
+                                            <option value="angry" {% if user.profile.emotion == "angry" %}
+                                                    selected {% endif %}>😡
+                                                Angry
+                                            </option>
+                                            <option value="neutral" {% if user.profile.emotion == "neutral" %}
+                                                    selected {% endif %}>😐 Neutral
+                                            </option>
+                                            <option value="I don't care" {% if user.profile.emotion == "I don't care" %}
+                                                    selected {% endif %}>🖕 I don't care
+                                            </option>
+                                        </select>
+                                    </div>
+                                    {% comment %} End Mood Selector {% endcomment %}
+                                    <button type="submit"
+                                            class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                                        Submit
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="max-w-screen-xl mt-8 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 lg:px-16 mx-auto" id="feature">
+                    <div class="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8 p  y-8 my-12">
+                        <div class="flex w-full justify-end">
+                            <div class="h-full w-full p-4" style="opacity: 1; transform: none;">
+                                <span style="box-sizing:border-box;display:block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative">
+                                        <span style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;padding-top:81.49606299212599%"></span>
+                                        <img
+                                                alt="VPN Illustrasi" src="/static/img/home/Illustration2.webp"
+                                                decoding="async" data-nimg="responsive"
+                                                style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                sizes="100vw"
+                                                alt="VPN Illustrasi" sizes="100vw"
+                                                src="/static/img/home/Illustration2.webp" decoding="async"
+                                                data-nimg="responsive"
+                                                style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                loading="lazy"
+                                        />
+                                    </noscript>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col items-end justify-center ml-auto w-full lg:w-9/12"
+                                style="opacity: 1; transform: none;">
+                                <h3 class="text-3xl lg:text-4xl font-medium leading-relaxed text-white">
+                                    We Provide Many Features You Can Use
+                                </h3>
+                                <p class="my-2 text-white">
+                                    You can explore the features that we provide with fun and have their own functions each
+                                    feature.
+                                </p>
+                                <ul class="list-image-[url(/static/img/assets/list/check.png)] text-white self-start list-inside ml-8">
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Powerfull online protection.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Support more than 50+ language.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Unlimited Bandwitch.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Friendly user interface.
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="max-w-screen-xl px-8 xl:px-16 mx-auto" id="about">
+                    <div>
+                        <div class="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16"
+                            style="opacity: 1; transform: none;">
+
+                            <div class="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
+                                <h1 class="text-3xl lg:text-4xl xl:text-5xl font-medium text-white leading-normal">
+                                    Want anything to be easy with <strong>ChatBot</strong>.
+                                </h1>
+                                <p class=" text-white mt-4 mb-6">
+                                    Provide a seamless experience for your customers with our chatbot. No more waiting for a
+                                    response, get instant answers to your questions.
+                                </p>
+
+                                <a href="{% url 'chats:chat_list' %}"
+                                class="py-3 lg:py-4 px-12 lg:px-16 text-white-500 font-semibold rounded-lg bg-orange-500 hover:shadow-orange-md transition-all outline-none undefined">
+                                    Get Started
+                                </a>
+                            </div>
+
+                            <div class="flex w-full">
+                                <div class="h-full w-full" style="opacity: 1; transform: none;">
+                                    <span style="box-sizing:border-box;display:block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative">
+                                        <span style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;padding-top:62.58169934640523%;object-fit: contain;"></span>
+                                        <img
+                                                alt="ChatBot"
+                                                src="/static/img/home/demo.gif"
+                                                decoding="async"
+                                                data-nimg="responsive"
+                                                style="object-fit: contain;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                sizes="100vw"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative w-full flex">
+                        <div class="rounded-lg w-full grid grid-flow-row sm:grid-flow-row grid-cols-1 sm:grid-cols-3 py-9 divide-y-2 sm:divide-y-0 sm:divide-x-2 divide-gray-100 bg-white-500 z-10">
+                            <div class="flex items-center justify-start sm:justify-center py-4 sm:py-6 w-8/12 px-4 sm:w-auto mx-auto sm:mx-0"
+                                style="opacity: 1; transform: none;">
+                                <div class="flex mx-auto w-40 sm:w-auto">
+                                    <div class="flex items-center justify-center bg-orange-100 w-12 h-12 mr-6 rounded-full">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xl text-white font-bold">
+                                            390+
+                                        </p>
+                                        <p class="text-lg text-white">Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-start sm:justify-center py-4 sm:py-6 w-8/12 px-4 sm:w-auto mx-auto sm:mx-0"
+                                style="opacity: 1; transform: none;">
+                                <div class="flex mx-auto w-40 sm:w-auto">
+                                    <div class="flex items-center justify-center bg-orange-100 w-12 h-12 mr-6 rounded-full">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xl text-white font-bold">
+                                            20+
+                                        </p>
+                                        <p class="text-lg text-white">Locations</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-start sm:justify-center py-4 sm:py-6 w-8/12 px-4 sm:w-auto mx-auto sm:mx-0"
+                                style="opacity: 1; transform: none;">
+                                <div class="flex mx-auto w-40 sm:w-auto">
+                                    <div class="flex items-center justify-center bg-orange-100 w-12 h-12 mr-6 rounded-full">
+                                        <i class="fa-solid fa-server"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <p class="text-xl text-white font-bold">
+                                            50+
+                                        </p>
+                                        <p class="text-lg text-white">Server</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute bg-black-600 opacity-5 w-11/12 roudned-lg h-64 sm:h-48 top-0 mt-8 mx-auto left-0 right-0"
+                            style="filter:blur(114px)"></div>
+                    </div>
+                </div>
+
+
+                <div class="max-w-screen-xl mt-8 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 lg:px-16 mx-auto" id="feature">
+                    <div class="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8 p  y-8 my-12">
+                        <div class="flex w-full justify-end">
+                            <div class="h-full w-full p-4" style="opacity: 1; transform: none;">
+                                <span style="box-sizing:border-box;display:block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative">
+                                        <span style="box-sizing:border-box;display:block;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;padding-top:81.49606299212599%"></span>
+
+                                        <img
+                                                alt="VPN Illustrasi" src="/static/img/home/Illustration2.webp"
+                                                decoding="async" data-nimg="responsive"
+                                                style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                sizes="100vw"
+                                                alt="VPN Illustrasi" sizes="100vw"
+                                                src="/static/img/home/Illustration2.webp" decoding="async"
+                                                data-nimg="responsive"
+                                                style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                loading="lazy"
+                                        />
+
+                                    </noscript>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col items-end justify-center ml-auto w-full lg:w-9/12"
+                                style="opacity: 1; transform: none;">
+                                <h3 class="text-3xl lg:text-4xl font-medium leading-relaxed text-white">
+                                    We Provide Many Features You Can Use
+                                </h3>
+                                <p class="my-2 text-white">
+                                    You can explore the features that we provide with fun and have their own functions each
+                                    feature.
+                                </p>
+                                <ul class="list-image-[url(/static/img/assets/list/check.png)] text-white self-start list-inside ml-8">
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Powerfull online protection.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Support more than 50+ language.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Unlimited Bandwitch.
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Friendly user interface.
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-b from-white-300 to-white-500 w-full py-14">
+                    <div class="max-w-screen-xl px-6 sm:px-8 lg:px-16 mx-auto flex flex-col w-full text-center justify-center">
+                        <div class="flex flex-col w-full">
+                            <div>
+                                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-medium text-white leading-relaxed"
+                                    style="opacity: 1; transform: none;">
+                                    Why Choose ChatBot?
+                                </h3>
+                                <p class="text-white leading-normal w-10/12 sm:w-7/12 lg:w-6/12 mx-auto my-2 text-center"
+                                style="opacity: 1; transform: none;">
+                                    We provide this feature to help you find out what you need to know with a chatbot
+                                    feature.
+                                </p>
+
+                                <br>
+                                <br>
+
+                                <p class="text-white leading-normal w-10/12 sm:w-7/12 lg:w-6/12 mx-auto my-2 text-center text-lg"
+                                style="opacity: 1; transform: none;">
+                                    Available categories:
+                                </p>
+
+                                <ul class="text-white self-start list-inside">
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Recipe
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Math
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        Organizing
+                                    </li>
+                                    <li class="relative circle-check custom-list" style="opacity: 1; transform: none;">
+                                        And many more
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

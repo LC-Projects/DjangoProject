@@ -1,11 +1,11 @@
 $(document).ready(() => {
 
     initDeleteBtn();
+    initChecboxBtn();
     $('#save-chat').on('click', function (e) {
         e.preventDefault();
         const val_name = $('#add-chat-form #name').val();
         const val_category = $('#add-chat-form #categories').val();
-        console.log(val_name, val_category)
         if (val_name && val_category) {
             $.ajax({
                 url: '/chats/create_chat/',
@@ -28,6 +28,14 @@ $(document).ready(() => {
                          id="chat-component-${chat.id}">
                         <h2 class="text-xl font-bold text-white">${chat.name} <br> <span class="text-gray-500 text-[14px]">${chat.category}</span></h2>
                         <div class="flex space-x-2">
+                            <div class="flex items-center mr-2">
+                                <span class="mr-3 text-sm font-medium text-white "><i class="fa fa-unlock"></i></span>
+                                <label class="relative flex items-center  cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer private-checkbox" data-chat-id="${chat.id}" checked>
+                                    <div class="w-9 h-5 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0  rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600 hover:peer-checked:bg-indigo-700 "></div>
+                                </label>
+                                <span class="ml-3 text-sm font-medium text-white "><i class="fa fa-lock"></i></span>
+                            </div>
                             <a class="px-4 py-2 text-white rounded hover:bg-gray-700 border border-sky-500 dark:bg-gray-800"
                                href="${chat.detail_url}"><i
                                     class="fa fa-eye text-sky-500 hover:text-sky-700"></i></a>
@@ -36,6 +44,7 @@ $(document).ready(() => {
                         </div>
                     </div>`);
                     initDeleteBtn();
+                    initChecboxBtn();
                     showToastSuccess();
                 },
                 error: (error) => {
@@ -136,5 +145,35 @@ $(document).ready(() => {
                 });
             });
         });
+    }
+
+    function initChecboxBtn(){
+        $('input[type="checkbox"].private-checkbox').each(function () {
+        $(this).on('change', function () {
+            const chatId = $(this).data('chat-id');
+            const isPrivate = $(this).prop('checked');
+            $.ajax({
+                url: '/chats/change-private/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                data: {
+                    chat_id: parseInt(chatId),
+                    is_private: isPrivate,
+                },
+                success: function (data) {
+                    if (data.status === 'Valid') {
+                        console.log('Success:', data.message);
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
     }
 });

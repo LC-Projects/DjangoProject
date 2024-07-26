@@ -1,19 +1,33 @@
 $(document).ready(() => {
+    let reader = new commonmark.Parser();
+    let writer = new commonmark.HtmlRenderer();
     const addMessageForm = $('form#add_message_form');
     const listMessages = $('#list-messages');
     const textArea = $('textarea[name="content"]');
 
-    addMessageForm.on('submit', function (event) {
+
+    addMessageForm.on('submit', sendMessage);
+    addMessageForm.on('keydown', function (event) {
+        if (event.key === 'Enter' && event.ctrlKey && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage(event);
+        }
+    });
+
+    function sendMessage(event) {
         event.preventDefault();
+
+        const form = $('#add_message_form'); // Assuming the form has an ID 'addMessageForm'
+        const textArea = form.find('textarea');
 
         const content = textArea.val();
         appendTempMessage(content);
         scrollBottom();
 
         $.ajax({
-            url: $(this).attr('action'),
+            url: form.attr('action'),
             type: "POST",
-            data: $(this).serialize(),
+            data: form.serialize(),
             dataType: 'json',
             headers: {
                 'X-CSRFToken': csrftoken
@@ -24,7 +38,7 @@ $(document).ready(() => {
                     appendValidMessage(data.new_message);
                     appendValidBotMessage(data.bot_response);
                     scrollBottom();
-                    $(textArea).val('');
+                    textArea.val('');
                 } else {
                     appendErrorMessage(data.new_message);
                 }
@@ -33,7 +47,40 @@ $(document).ready(() => {
                 console.error('Error:', error);
             }
         });
-    });
+    }
+
+    // addMessageForm.on('submit', function (event) {
+    //     event.preventDefault();
+
+    //     const content = textArea.val();
+    //     appendTempMessage(content);
+    //     scrollBottom();
+
+    //     $.ajax({
+    //         url: $(this).attr('action'),
+    //         type: "POST",
+    //         data: $(this).serialize(),
+    //         dataType: 'json',
+    //         headers: {
+    //             'X-CSRFToken': csrftoken
+    //         },
+    //         success: (data) => {
+    //             removeTempMessages();
+    //             if (data.status === 'Valid') {
+    //                 appendValidMessage(data.new_message);
+    //                 appendValidBotMessage(data.bot_response);
+    //                 scrollBottom();
+    //                 $(textArea).val('');
+    //             } else {
+    //                 appendErrorMessage(data.new_message);
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.error('Error:', error);
+    //         }
+    //     });
+    // });
+
 
     function appendTempMessage(content) {
         listMessages.append(`
@@ -118,6 +165,12 @@ $(document).ready(() => {
     }
 
     function appendValidBotMessage(message) {
+        console.log('===>', message);
+        let parsed = reader.parse(message.content);
+        let message_content = writer.render(parsed);
+        console.log('--->', message_content);
+        // message_content contains code block add the class hljs
+
         listMessages.append(`
             <div class="flex items-start">
                 <div class="bg-gray-500 rounded-[8px] p-3 mb-4  gap-2.5 flex items-start">
@@ -133,16 +186,18 @@ $(document).ready(() => {
                             <span class="text-sm font-semibold text-gray-900 dark:text-white">GPT-Bot</span>
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">${message.created_at}</span>
                         </div>
-                        <p class="text-sm font-normal py-2 text-gray-900 dark:text-white">${message.content }</p>
+                        <div class="text-sm font-normal py-2 text-white">${message_content}</div>
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
                     </div>
                 </div>
             </div>
         `);
+        hljs.highlightAll();
     }
 
     scrollBottom();
-    function scrollBottom(){
-        $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
+
+    function scrollBottom() {
+        $('main > div').animate({ scrollTop: $('main > div').prop("scrollHeight") }, 1000);
     }
 });

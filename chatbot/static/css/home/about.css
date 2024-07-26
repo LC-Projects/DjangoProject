@@ -1,0 +1,53 @@
+/* About Page Enhanced Styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.8;
+}
+
+h1 {
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #004085;
+    border-bottom: 2px solid #b8daff;
+    padding-bottom: 5px;
+}
+
+p {
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: justify;
+}
+
+/* Enhances the visual hierarchy and readability */
+.content {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adds a bit of style to the links for a better user experience */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .content {
+        width: 95%;
+        padding: 10px;
+    }
+}

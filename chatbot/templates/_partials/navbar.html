@@ -1,6 +1,7 @@
 {% load dict_filter %}
-<header>
-  {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<header class="sticky top-0 z-20">
+  {% comment %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="">Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -32,18 +33,18 @@
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
             <!--
-                    Icon when menu is closed.
+                                Icon when menu is closed.
 
-                    Menu open: "hidden", Menu closed: "block"
-                             -->
+                                Menu open: "hidden", Menu closed: "block"
+                                             -->
             <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
             <!--
-                    Icon when menu is open.
+                                Icon when menu is open.
 
-                    Menu open: "block", Menu closed: "hidden"
-                             -->
+                                Menu open: "block", Menu closed: "hidden"
+                                             -->
             <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -56,29 +57,220 @@
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
               {% if not user.is_authenticated %}
-              <a href="{% url 'home:home' %}" class="{% if request|is_path:'home:home' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-              <a href="#" class="{% if request|is_path:'home:services' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Services</a>
-              <a href="#" class="{% if request|is_path:'home:pricing' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Pricing</a>
-              <a href="#" class="{% if request|is_path:'home:about' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">About</a>
-              <a href="#" class="{% if request|is_path:'home:contact' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contact</a>
+                <a href="{% url 'home:home' %}"
+                  class="{% if request|is_path:'home:home' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Home
+                </a>
+                <a href="{% url 'home:about' %}"
+                  class="{% if request|is_path:'home:about' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  About
+                </a>
+                <a href="{% url 'feedback:contact' %}"
+                  class="{% if request|is_path:'feedback:contact' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Contact
+                </a>
+                <a href="{% url 'forum:home' %}"
+                  class="{% if request|is_path:'forum:home' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Forum
+                </a>
               {% endif %}
 
               {% if user.is_authenticated %}
-                <a href="{% url 'home:home' %}" class="{% if request|is_path:'home:home' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-                <a href="{% url 'chats:chat_list' %}" class="{% if request|is_path:'chats:chat_list' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Chats</a>
+                <a href="{% url 'home:home' %}"
+                  class="{% if request|is_path:'home:home' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Home
+                </a>
+                <a href="{% url 'chats:chat_list' %}"
+                  class="{% if request|is_path:'chats:chat_list' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Chats
+                </a>
+                <a href="{% url 'forum:home' %}"
+                  class="{% if request|is_path:'forum:home' %}
+
+
+
+                     bg-gray-900 text-white
+
+
+
+                  {% else %}
+
+
+
+                     text-gray-300 hover:bg-gray-700 hover:text-white
+
+
+
+                  {% endif %} rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                  Forum
+                </a>
               {% endif %}
             </div>
           </div>
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-            <span class="absolute -inset-1.5"></span>
-            <span class="sr-only">View notifications</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-          </button>
+          {% if request.user|has_group:'Développeur' or user.is_superuser %}
+            <a href="{% url 'feedback:feedback_list' %}" class="relative flex items-center justify-center rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 h-8 w-8">
+              <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <span class="absolute -inset-1.5"></span>
+                <span class="sr-only">View feedbacks</span>
+                <span class="h-6 w-6"><i class="fa fa-comments"></i></span>
+              </button>
+            </a>
+          {% endif %}
+          <!-- notification dropdown -->
+          <div class="relative ml-3">
+            <div>
+              {% if user.is_authenticated %}
+                <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none c focus:ring-offset-2 focus:ring-offset-gray-800" id="notification-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <span class="sr-only">Open notification menu</span>
+                  {% if notifications|length >= 0 and unread_notifications %}
+                    <span class=""><i class="fa fa-bell text-red-400 text-lg"></i></span>
+                  {% else %}
+                    <span class=""><i class="fa fa-bell text-white text-lg"></i></span>
+                  {% endif %}
+                </button>
+                <div id="notification-menu-dropdown" class="shadow shadow-slate-800 hidden absolute right-0 z-10 mt-2 w-48 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="notification-menu-button" tabindex="-1">
+                  <div class="max-h-[200px] overflow-y-auto">
+                    {% for notification in notifications %}
+                      <a href="{% url 'notification:mark_as_read' notification.id %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                        <div class="grid grid-cols-4 border-b border-gray-200 items-center">
+                          <div class="col-span-3">
+                            <div>{{ notification.title }}</div>
+                            <div>
+                              <small>
+                                Comment:
+                                {% if notification.description|length > 14 %}
+                                  {{ notification.description|slice:':14' }}...
+                                {% else %}
+                                  {{ notification.description }}
+                                {% endif %}
+                            </small>
+                            </div>
+                            <div>
+                                <small>
+                                    <i>User: {{ notification.author }}</i>
+                                </small>
+                            </div>
+                          </div>
 
+                          <div class="col-span-1 text-end pr-4">
+                            {% if notification.is_read %}
+                              <i class="fa-solid fa-envelope-open"></i>
+                            {% else %}
+                              <i class="fa-solid fa-envelope"></i>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </a>
+                    {% empty %}
+                      <p class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="notification-menu-item-2">No notifications</p>
+                    {% endfor %}
+                  </div>
+                  {% if notifications %}
+                    <a href="{% url 'notification:notification_list' %}" class="block px-4 py-2 text-sm text-white bg-gray-900" role="menuitem" tabindex="-1" id="notification-menu-item-2">All notifications</a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <!-- END notification dropdown -->
           <!-- Profile dropdown -->
           <div class="relative ml-3">
             <div>
@@ -98,15 +290,15 @@
                   </svg>
                 </a>
               {% endif %}
-            </div>
-
-            <div id="user-menu-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-              <a href="{% url 'auth:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-              <a href="{% url 'auth:edit_profile' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-              <hr />
-              <a href="/auth/logout/" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+              <div id="user-menu-dropdown" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                <a href="{% url 'auth:edit_profile' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                <a href="{% url 'auth:edit_user' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                <hr />
+                <a href="{% url 'auth:logout' %}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+              </div>
             </div>
           </div>
+          <!-- END Profile dropdown -->
         </div>
       </div>
     </div>
@@ -124,13 +316,18 @@
   </nav>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const userMenuButton = document.getElementById('user-menu-button')
-      const userMenuDropdown = document.getElementById('user-menu-dropdown')
+    toggleVisibility('user-menu-button', 'user-menu-dropdown')
+    toggleVisibility('notification-menu-button', 'notification-menu-dropdown')
 
-      userMenuButton.addEventListener('click', () => {
-        userMenuDropdown.classList.toggle('hidden')
-      })
-    })
+    function toggleVisibility(buttonId, elementId) {
+      const button = document.getElementById(buttonId)
+      const element = document.getElementById(elementId)
+
+      if (button && element) {
+        button.addEventListener('click', () => {
+          element.classList.toggle('hidden')
+        })
+      }
+    }
   </script>
 </header>

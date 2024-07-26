@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}{% load static %}
 {% block title %}
   Edit Profile
 {% endblock %}
@@ -31,14 +31,45 @@
               </div>
 
               <div>
-                <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Bio</label>
+                <label for="bio" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
                 <textarea id="id_bio" name="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write something about you here...">{{ form.bio.value }}</textarea>
               </div>
 
               <div>
-                <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900">birthdate</label>
+                <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900">Birthdate</label>
                 <input value="{{ form.birthdate.value|date:"Y-m-d" }}" type="date" name="birthdate" id="id_birthdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
               </div>
+
+              {% comment %} Mood Selector {% endcomment %}
+              <div>
+                <label for="emotion" class="block mb-2 text-sm font-medium text-gray-900">Actual mood</label>
+                <select name="emotion" id="id_emotion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option value="happy" {% if form.emotion.value == "happy" %} selected {% endif %}>🙂 Happy</option>
+                  <option value="sad" {% if form.emotion.value == "sad" %} selected {% endif %}>😭 Sad</option>
+                  <option value="angry" {% if form.emotion.value == "angry" %} selected {% endif %}>😡 Angry</option>
+                  <option value="neutral" {% if form.emotion.value == "neutral" %} selected {% endif %}>😐 Neutral</option>
+                  <option value="I don't care" {% if form.emotion.value == "I don't care" %} selected {% endif %}>🖕 I don't care</option>
+                </select>
+              </div>
+              {% comment %} End Mood Selector {% endcomment %}
+
+              {% comment %} Langauge Selector {% endcomment %}
+              <div>
+                <label for="language" class="block mb-2 text-sm font-medium text-gray-900">Default language four output of ChatGPT</label>
+                <input type="hidden" id="id_language" name="language" value="{{form.language.value}}">
+                <div class="relative dropdown-container bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <div class="dropdown-selected p-2.5 cursor-pointer flex items-center">Choisissez une langue</div>
+                  <div class="dropdown-options hidden absolute bg-white dark:bg-gray-700 border mt-1 rounded-lg w-full z-10">
+                      {% for language in languages %}
+                        <div class="dropdown-option p-2.5 cursor-pointer flex items-center" data-value="{{ language.code }}">
+                          <img src="/static/country-flags/png100px/{{ language.code|lower }}.png" alt="" class="h-3.5 w-3.5 rounded-full mr-2"> {{ language.name }}
+                        </div>
+                      {% endfor %}
+                  </div>
+                </div>
+              </div>
+              {% comment %} End Languge Selector {% endcomment %}
+
             </div>
 
             <div class="text-end">
@@ -49,4 +80,8 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static "js/language_selector.js" %}" ></script>
 {% endblock %}
