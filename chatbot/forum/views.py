@@ -4,6 +4,16 @@ from django.urls import reverse
 
 from chats.models import Chat, Category, Comment, Message
 
+colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'cyan', 'teal', 'indigo', 'lime', 'gray', 'brown']
+icons = {
+    "general": '<i class="fa-solid fa-border-all"></i>',
+    "recipes": '<i class="fa-solid fa-kitchen-set"></i>',
+    "coding": '<i class="fa-solid fa-code"></i>',
+    "entertainments": '<i class="fa-solid fa-trophy"></i>',
+    "sports": '<i class="fa-solid fa-dumbbell"></i>',
+    "news": '<i class="fa-solid fa-newspaper"></i>',
+    "mathematics": '<i class="fa-solid fa-calculator"></i>',
+}
 
 # Create your views here.
 
@@ -11,38 +21,11 @@ def AllForumsView(request):
     template_name = 'forum/home.html'
 
     # TODO: Retrive all catergories, get the count of posts in each category and display them in the leftside bar
-    categories = Category.objects.all()
     public_chats = Chat.objects.filter(is_private=False)
     comments = Comment.objects.all()
     messages = Message.objects.filter(is_bot=False)
 
-    categories_data = []
-    categories_data.append(
-        {
-            'hr': True
-        }
-    )
-    categories_data.append(
-        {
-            'color': 'white',
-            'bg': 'red',
-            'link': reverse('forum:home'),
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
-            'label': 'All',
-            'count': public_chats.count()
-        }
-    )
-    for category in categories:
-        category_data = {
-            'color': 'white',
-            'bg': 'red',
-            'link': reverse('forum:home_slug', args=[category.slug]),
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
-            'label': category.name,
-            'count': public_chats.filter(category=category).count(),
-            'slug': category.slug
-        }
-        categories_data.append(category_data)
+
     # To get icons: https://fontawesome.com/search
 
     chats_datas = []
@@ -60,7 +43,7 @@ def AllForumsView(request):
         }
         chats_datas.append(chat_data)
     context = {}
-    context['leftside'] = categories_data
+    context['leftside'] = displayCategory
 
     context['recipe'] = chats_datas
 
@@ -68,40 +51,10 @@ def AllForumsView(request):
 
 def ForumByCategoryView(request, slug):
     template_name = 'forum/home.html'
-    categories = Category.objects.all()
     public_chats = Chat.objects.filter(is_private=False)
     public_chats_cat = public_chats.filter(category__slug=slug)
     comments = Comment.objects.all()
     messages = Message.objects.filter(is_bot=False)
-
-    categories_data = []
-    categories_data.append(
-        {
-            'hr': True
-        }
-    )
-    categories_data.append(
-        {
-            'color': 'white',
-            'bg': 'red',
-            'link': reverse('forum:home'),
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
-            'label': 'All',
-            'count': public_chats.count()
-        }
-    )
-    for category in categories:
-        category_data = {
-            'color': 'white',
-            'bg': 'red',
-            'link': reverse('forum:home_slug', args=[category.slug]),
-            'icon': '<i class="fa-solid fa-kitchen-set"></i>',
-            'label': category.name,
-            'count': public_chats.filter(category=category).count(),
-            'slug': category.slug
-        }
-        categories_data.append(category_data)
-    # To get icons: https://fontawesome.com/search
 
     chats_datas = []
     for chat in public_chats_cat:
@@ -118,7 +71,7 @@ def ForumByCategoryView(request, slug):
         }
         chats_datas.append(chat_data)
     context = {}
-    context['leftside'] = categories_data
+    context['leftside'] = displayCategory
 
     context['recipe'] = chats_datas
 
@@ -126,6 +79,49 @@ def ForumByCategoryView(request, slug):
 
 
 # UTILS FUNCTIONS
+def displayCategory():
+    categories = Category.objects.all()
+    public_chats = Chat.objects.filter(is_private=False)
+
+    categories_data = []
+    categories_data.append(
+        {
+            'hr': True
+        }
+    )
+    categories_data.append(
+        {
+            'color': 'white',
+            'bg': 'red',
+            'link': reverse('forum:home'),
+            'icon': '<i class="fa-solid fa-border-all"></i>',
+            'label': 'All',
+            'count': public_chats.count()
+        }
+    )
+
+    for category in categories:
+        if public_chats.filter(category=category).count() == 0:
+            continue
+
+        color_index = category.id % len(colors)
+        icon = icons.get(category.slug, '<i class="fa-solid fa-border-all"></i>')
+
+        category_data = {
+            'color': 'white',
+            'bg': colors[color_index],
+            'link': reverse('forum:home_slug', args=[category.slug]),
+            'icon': icon  if icon else '<i class="fa-solid fa-border-all"></i>',
+            'label': category.name,
+            'count': public_chats.filter(category=category).count(),
+            'slug': category.slug
+        }
+        categories_data.append(category_data)
+
+    return categories_data
+
+
+
 def convertDateToFrenchFormat(date):
     # 2021-09-01
     # 01/09/2021

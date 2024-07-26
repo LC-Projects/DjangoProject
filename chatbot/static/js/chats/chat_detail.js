@@ -4,7 +4,7 @@ $(document).ready(() => {
     const addMessageForm = $('form#add_message_form');
     const listMessages = $('#list-messages');
     const textArea = $('textarea[name="content"]');
-
+    // document.querySelectorAll("pre code.language-html").forEach(el => el.innerText = el.innerHTML.replaceAll('language-xml', ''));
 
     addMessageForm.on('submit', sendMessage);
     addMessageForm.on('keydown', function (event) {
@@ -165,8 +165,10 @@ $(document).ready(() => {
     }
 
     function appendValidBotMessage(message) {
+        console.log('===>', message);
         let parsed = reader.parse(message.content);
         let message_content = writer.render(parsed);
+        console.log('--->', message_content);
         // message_content contains code block add the class hljs
 
         listMessages.append(`
@@ -196,6 +198,6 @@ $(document).ready(() => {
     scrollBottom();
 
     function scrollBottom() {
-        $('main > div').animate({ scrollTop: $('main > div').prop("scrollHeight") }, 1000);
+        $('main > div').animate({scrollTop: $('main > div').prop("scrollHeight")}, 1000);
     }
 });

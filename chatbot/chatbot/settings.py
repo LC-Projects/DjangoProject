@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'home',
     'allauth',
     'allauth.account',
-    'highlightjs',
     'forum',
     'notification',
     'feedback',
@@ -78,19 +77,6 @@ EMAIL_VERIFICATION = 'none'
 # settings.py
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-HIGHLIGHTJS = {
-    # The URL to the jQuery JavaScript file
-    'jquery_url': '//code.jquery.com/jquery.min.js',
-    # The highlight.js base URL
-    'base_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js',
-    # The complete URL to the highlight.js CSS file
-    'css_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/{0}.min.css',
-    # Include jQuery with highlight.js JavaScript (affects django-highlightjs template tags)
-    'include_jquery': True,
-    # The default used style.
-    'style': 'stackoverflow-dark',
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

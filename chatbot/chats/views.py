@@ -1,3 +1,5 @@
+import html
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -185,12 +187,15 @@ def process_content(content):
         if text.startswith('```'):
             language = match.group(2)
             code_block = match.group(3)
+            # Escape HTML characters in the code block
+            escaped_code_block = html.escape(code_block)
             if language:
-                return f'<pre><code class="language-{language}">{code_block}</code></pre>'
+                return f'<pre><code class="language-{language}">{escaped_code_block}</code></pre>'
             else:
-                return f'<pre><code>{code_block}</code></pre>'
+                return f'<pre><code>{escaped_code_block}</code></pre>'
         elif text.startswith('`'):
-            return f'<code>{text[1:-1]}</code>'
+            escaped_inline_code = html.escape(text[1:-1])
+            return f'<code>{escaped_inline_code}</code>'
         else:
             return text.replace('\n', '<br>')  # Replace line breaks in plain text.
 
@@ -278,6 +283,16 @@ def add_comment(request):
                 'content': comment.content,
                 'created_at': comment.created_at.strftime('%b. %d, %Y'),
             }
+
+            # add to notification
+            notification = Notification(
+                title=f'New comment on {comment.chat.name}',
+                description=comment.content,
+                user=comment.chat.user,
+                chatId=comment.chat,
+                slug=Chat.objects.get(pk=chat).category.slug
+            )
+            notification.save()
 
             # add to notification
             notification = Notification(

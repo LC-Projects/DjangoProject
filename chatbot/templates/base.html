@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load dict_filter %}
 {% load static %}
-{% load highlightjs %}
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -15,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://unpkg.com/commonmark@0.29.3/dist/commonmark.js"></script>
 
-    <link href="{% highlightjs_css_url %}" rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/stackoverflow-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
@@ -34,7 +32,7 @@
 {% include '_partials/navbar.html' %}
 
 <main>
-    {% highlightjs_javascript jquery=1 %}
+
     {% block content %}
 
     {% endblock %}
